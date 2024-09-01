@@ -17,9 +17,9 @@ export const useWeb3Auth = () => {
   const handleLogIn = async () => {
     const provider = await web3Auth.connect();
     saveWeb3AuthProvider(provider);
-    if (web3Auth.connected && web3AuthProvider) {
+    if (web3Auth.connected && provider) {
       const user = await web3Auth.getUserInfo();
-      const address = await RPC.getAccounts(web3AuthProvider);
+      const address = await RPC.getAccounts(provider);
       saveUser({ ...user, address });
       handleSetIsLoggedIn(true);
     }
@@ -29,6 +29,7 @@ export const useWeb3Auth = () => {
     await web3Auth.logout();
     saveUser(undefined);
     saveWeb3AuthProvider(null);
+    handleSetIsLoggedIn(false);
   };
 
   return {
