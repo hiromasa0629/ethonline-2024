@@ -21,7 +21,7 @@ export const useWeb3Auth = () => {
       const user = await web3Auth.getUserInfo();
       const address = await RPC.getAccounts(web3AuthProvider);
       saveUser({ ...user, address });
-      handleSetIsLoggedIn;
+      handleSetIsLoggedIn(true);
     }
   };
 
