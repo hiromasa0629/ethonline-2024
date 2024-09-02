@@ -1,0 +1,7 @@
+services:
+    ngrok:
+        image: ngrok/ngrok:latest
+        environment:
+            - NGROK_AUTHTOKEN=${NGROK_AUTH_TOKEN}
+        network_mode: host
+        command: http --domain=${NGROK_STATIC_DOMAIN} host.docker.internal:5173
