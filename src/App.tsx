@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useSignSchema } from "./hooks/useSignSchema";
 import { useWeb3Auth } from "./hooks/useWeb3Auth";
 import Login from "./pages/Login";
