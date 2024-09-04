@@ -8,16 +8,28 @@ import RPC from "../utils/ethersRPC";
 const clientId =
   "BPOFE71BSG2ocdV7zJCLiiWDrBaTjlTg0iEA1FUKO9ONkj-ik8P9lDQl4mSLzstn8t1I30bqWvi5HUPKZoLuvUg";
 
+// const chainConfig = {
+//   chainNamespace: CHAIN_NAMESPACES.EIP155,
+//   chainId: "0x14a34",
+//   rpcTarget: "https://base-sepolia-rpc.publicnode.com",
+//   // Avoid using public rpcTarget in production.
+//   // Use services like Infura, Quicknode etc
+//   displayName: "Base Sepolia Testnet",
+//   blockExplorerUrl: "https://sepolia.basescan.org",
+//   ticker: "ETH",
+//   tickerName: "Ethereum",
+// };
+
 const chainConfig = {
   chainNamespace: CHAIN_NAMESPACES.EIP155,
-  chainId: "0x14a34",
-  rpcTarget: "https://base-sepolia-rpc.publicnode.com",
+  chainId: "0x2AC54",
+  rpcTarget: "https://yellowstone-rpc.litprotocol.com/",
   // Avoid using public rpcTarget in production.
   // Use services like Infura, Quicknode etc
-  displayName: "Base Sepolia Testnet",
-  blockExplorerUrl: "https://sepolia.basescan.org",
-  ticker: "ETH",
-  tickerName: "Ethereum",
+  displayName: "Chronicle Yellowstone - Lit Protocol Testnet",
+  blockExplorerUrl: "https://yellowstone-explorer.litprotocol.com/",
+  ticker: "tstLPX",
+  tickerName: "tstLPX",
 };
 
 const privateKeyProvider = new EthereumPrivateKeyProvider({
@@ -26,9 +38,7 @@ const privateKeyProvider = new EthereumPrivateKeyProvider({
 
 export const Web3AuthContext = createContext<Web3AuthContextType | null>(null);
 
-const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<Partial<IUser>>();
   const [web3Auth, _] = useState<Web3Auth>(
     new Web3Auth({
@@ -37,9 +47,7 @@ const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       privateKeyProvider,
     })
   );
-  const [web3AuthProvider, setWeb3AuthProvider] = useState<IProvider | null>(
-    null
-  );
+  const [web3AuthProvider, setWeb3AuthProvider] = useState<IProvider | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const saveUser = (user: Partial<IUser> | undefined) => {
