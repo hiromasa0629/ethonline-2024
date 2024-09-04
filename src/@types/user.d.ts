@@ -10,7 +10,9 @@ export type Web3AuthContextType = {
   isLoggedIn: boolean;
   web3Auth: Web3Auth;
   web3AuthProvider: IProvider | null;
+  isLoading: boolean;
   saveUser: (user: Partial<IUser> | undefined) => void;
   saveWeb3AuthProvider: (provider: IProvider | null) => void;
   handleSetIsLoggedIn: (loggedIn: boolean) => void;
+  handleSetIsLoading: (isLoading: boolean) => void;
 };

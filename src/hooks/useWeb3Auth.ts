@@ -12,16 +12,20 @@ export const useWeb3Auth = () => {
     saveWeb3AuthProvider,
     handleSetIsLoggedIn,
     isLoggedIn,
+    handleSetIsLoading,
+    isLoading,
   } = useContext(Web3AuthContext) as Web3AuthContextType;
 
   const handleLogIn = async () => {
     const provider = await web3Auth.connect();
     saveWeb3AuthProvider(provider);
     if (web3Auth.connected && provider) {
+      handleSetIsLoading(true);
       const user = await web3Auth.getUserInfo();
       const address = await RPC.getAccounts(provider);
       saveUser({ ...user, address });
       handleSetIsLoggedIn(true);
+      handleSetIsLoading(false);
     }
   };
 
@@ -38,5 +42,6 @@ export const useWeb3Auth = () => {
     user,
     web3AuthProvider,
     isLoggedIn,
+    isLoading,
   };
 };

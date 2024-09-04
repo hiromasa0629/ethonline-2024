@@ -26,9 +26,7 @@ const privateKeyProvider = new EthereumPrivateKeyProvider({
 
 export const Web3AuthContext = createContext<Web3AuthContextType | null>(null);
 
-const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<Partial<IUser>>();
   const [web3Auth, _] = useState<Web3Auth>(
     new Web3Auth({
@@ -37,10 +35,9 @@ const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       privateKeyProvider,
     })
   );
-  const [web3AuthProvider, setWeb3AuthProvider] = useState<IProvider | null>(
-    null
-  );
+  const [web3AuthProvider, setWeb3AuthProvider] = useState<IProvider | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const saveUser = (user: Partial<IUser> | undefined) => {
     setUser(user);
@@ -54,6 +51,10 @@ const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setIsLoggedIn(loggedIn);
   };
 
+  const handleSetIsLoading = (isLoading: boolean) => {
+    setIsLoading(isLoading);
+  };
+
   useEffect(() => {
     const init = async () => {
       if (user) return;
@@ -62,10 +63,12 @@ const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         saveWeb3AuthProvider(web3Auth.provider);
 
         if (web3Auth.connected && web3Auth.provider) {
+          handleSetIsLoading(true);
           const user = await web3Auth.getUserInfo();
           const address = await RPC.getAccounts(web3Auth.provider);
           saveUser({ ...user, address });
           handleSetIsLoggedIn(true);
+          handleSetIsLoading(false);
         }
       } catch (error) {
         console.error(error);
@@ -84,6 +87,8 @@ const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         saveWeb3AuthProvider,
         isLoggedIn,
         handleSetIsLoggedIn,
+        isLoading,
+        handleSetIsLoading,
       }}
     >
       {children}
