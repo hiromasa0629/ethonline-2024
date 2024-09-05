@@ -36,7 +36,6 @@ async function start_a_new_conversation() {
   if (xmtp) {
     conversation = await xmtp.conversations.newConversation(WALLET_TO);
     console.log(`Conversation created with ${conversation.peerAddress}`);
-    console.log(conversation);
   }
 }
 
@@ -55,6 +54,7 @@ async function stream_messages_in_a_conversation() {
     console.log(`Streaming messages in conversation with ${conversation.peerAddress}`);
     for await (const message of await conversation.streamMessages()) {
       console.log(`New message from ${message.senderAddress}: ${message.content}`);
+      conversation.send("Thanks for subscribing to sunway newsletter.");
     }
   }
 }
@@ -65,18 +65,22 @@ function printQrCode() {
 // Stream all messages from all conversations
 async function stream_all_messages() {
   // printQrCode();
+  let current = "";
   if (xmtp) {
     for await (const message of await xmtp.conversations.streamAllMessages()) {
       console.log(`New message from ${message.senderAddress}: ${message.content}`);
-      conversation = await xmtp.conversations.newConversation(WALLET_TO);
-      conversation.send("Thanks for subscribing to sunway newsletter.");
+      if (message.senderAddress !== current && message.senderAddress !== xmtp.address) {
+        conversation = await xmtp.conversations.newConversation(message.senderAddress);
+        await conversation.send("Thank you for subscribing to this news letter!");
+        current = message.senderAddress;
+      }
     }
   }
 }
 
 await create_a_client();
-await stream_all_messages();
 // await check_if_an_address_is_on_the_network();
 // await start_a_new_conversation();
-//await send_a_message();
+// await send_a_message();
 // await stream_messages_in_a_conversation();
+await stream_all_messages();
