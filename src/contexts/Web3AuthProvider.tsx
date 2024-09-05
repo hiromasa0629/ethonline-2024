@@ -66,7 +66,8 @@ const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children })
           handleSetIsLoading(true);
           const user = await web3Auth.getUserInfo();
           const address = await RPC.getAccounts(web3Auth.provider);
-          saveUser({ ...user, address });
+          const userType = "talent"; // to be replaced with other methods to get userType, or if any at all
+          saveUser({ ...user, userType, address });
           handleSetIsLoggedIn(true);
           handleSetIsLoading(false);
         }

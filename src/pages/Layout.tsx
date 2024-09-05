@@ -31,18 +31,18 @@ function Layout() {
       { element: "settings", icon: LuSettings, action: () => navigate("/settings") },
       { element: "logout", icon: LuLogOut, action: handleLogOut },
     ],
-    organization: [],
+    institution: [],
+    company: [],
   };
-  const role = "talent";
-  const buttons = buttonsConfig[role] || [];
+  const buttons = user && user.userType ? buttonsConfig[user.userType] : [];
 
   return (
     <>
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col w-screen overflow-y-scroll pb-24">
         <main className="flex-grow">
           <Outlet />
         </main>
-        <footer className="fixed bottom-0 left-0 right-0 bg-[#6D6AD3] text-white py-4 w-screen">
+        <footer className="w-full fixed bottom-0 left-0 right-0 bg-purple text-white py-4">
           <div className="container mx-auto flex w-full justify-around items-center">
             {buttons.map((button, index) => (
               <ButtonComponent

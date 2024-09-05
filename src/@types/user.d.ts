@@ -2,6 +2,7 @@ import { IProvider, UserInfo } from "@web3auth/base";
 import { Web3Auth } from "@web3auth/modal";
 
 export interface IUser extends UserInfo {
+  userType: "talent" | "institution" | "company";
   address?: `0x${string}`;
 }
 
