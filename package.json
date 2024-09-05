@@ -17,6 +17,7 @@
     "@lit-protocol/contracts-sdk": "^6.4.10",
     "@lit-protocol/lit-auth-client": "^6.4.10",
     "@lit-protocol/lit-node-client": "^6.4.10",
+    "@lit-protocol/pkp-client": "^6.4.10",
     "@twa-dev/sdk": "^7.8.0",
     "@web3auth/base": "^8.12.4",
     "@web3auth/ethereum-provider": "^8.12.4",
@@ -24,7 +25,8 @@
     "ethers": "^5.7.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "viem": "^2.21.0"
+    "viem": "^2.21.0",
+    "zustand": "^4.5.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
