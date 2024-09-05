@@ -5,6 +5,7 @@ import NotFound from "../pages/NotFound";
 import Endorsement from "../pages/Endorsement";
 import Education from "../pages/Education";
 import WorkExperience from "../pages/WorkExperience";
+import Chat from "../pages/Chat";
 
 const browserRouter = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const browserRouter = createBrowserRouter([
       {
         path: "/*",
         element: <NotFound />,
+      },
+      {
+        path: "/chat",
+        element: <Chat />,
       },
     ],
   },

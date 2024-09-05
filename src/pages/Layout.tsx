@@ -42,6 +42,7 @@ function Layout() {
       { element: "home", icon: LuHome, action: () => navigate("/") },
       { element: "profile", icon: LuUser, action: () => navigate("/profile") },
       { element: "settings", icon: LuSettings, action: () => navigate("/settings") },
+      { element: "chat", icon: LuSettings, action: () => navigate("/chat") },
       { element: "logout", icon: LuLogOut, action: handleLogOut },
     ],
   };
