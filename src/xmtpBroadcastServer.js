@@ -69,7 +69,7 @@ async function stream_all_messages() {
   if (xmtp) {
     for await (const message of await xmtp.conversations.streamAllMessages()) {
       console.log(`New message from ${message.senderAddress}: ${message.content}`);
-      if (message.senderAddress !== current && message.senderAddress !== xmtp.address) {
+      if (message.senderAddress !== xmtp.address) {
         conversation = await xmtp.conversations.newConversation(message.senderAddress);
         await conversation.send("Thank you for subscribing to this news letter!");
         current = message.senderAddress;

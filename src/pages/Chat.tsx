@@ -1,10 +1,4 @@
-import {
-  useClient,
-  useCanMessage,
-  useSendMessage,
-  useStartConversation,
-  useConversation,
-} from "@xmtp/react-sdk";
+import { useClient, useCanMessage, useSendMessage, useStartConversation } from "@xmtp/react-sdk";
 import { useWeb3Auth } from "../hooks/useWeb3Auth";
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
@@ -15,33 +9,31 @@ import BroadcasterDropdown from "../modules/chat/BroadcasterDropdown";
 
 const Chat = () => {
   const { user, web3AuthProvider, isLoggedIn } = useWeb3Auth();
-  const { client, error, isLoading, initialize } = useClient();
+  const { error, isLoading, initialize } = useClient();
   const [isOnNetwork, setIsOnNetwork] = useState(false);
   const [selectedBroadcaster, setSelectedBroadcaster] = useState("");
-  const [messages, setMessages] = useState<any>([]);
-  const [messageLoading, setMessageLoading] = useState(false);
+  const [messages, setMessages] = useState<any[]>([]);
   const [conversation, setConversation] = useState<any>();
   const { canMessage } = useCanMessage();
   const { sendMessage } = useSendMessage();
-  // const { conversations } = useConversation();
   const { startConversation } = useStartConversation();
   const ethersProvider = new ethers.BrowserProvider(web3AuthProvider as IProvider);
 
-  const onSendMessage = (text: any) => {
-    // await sendMessage(conversation, message);
-    setMessages([...messages, { text, isUser: true, messanger: user?.address as string }]);
+  const onSendMessage = async (text: any) => {
+    await sendMessage(conversation, "message");
   };
 
   const handleSelectChange = async (e: any) => {
     setSelectedBroadcaster(e.target.value);
     const canMsg = await canMessage(e.target.value as string);
     setIsOnNetwork(canMsg);
+    setMessages([]);
     if (canMsg) {
       const convo = await startConversation(
         e.target.value as string,
         "I would like to subscribe to this news letter!"
       );
-      setConversation(convo);
+      setConversation(convo.conversation);
     }
   };
 
@@ -60,6 +52,33 @@ const Chat = () => {
       handleConnect();
     }
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    const temp = async () => {
+      const opts = {
+        // Only show messages from last hour
+        startTime: new Date(new Date().getTime() - 60 * 60 * 1000), // 1 hour ago
+        endTime: new Date(), // current time
+      };
+      if (conversation) {
+        const msgs = await conversation.messages(opts);
+        let msgList: any[] = [];
+        console.log("msgs", msgs);
+        msgs.reverse().map((msg: any, i: number) => {
+          const pos = msg.length - i - 1;
+          msgList.push({
+            text: msg.content,
+            senderAddress: msg.senderAddress,
+            isUser: msg.senderAddress === user?.address,
+          });
+          console.log(msg.content);
+        });
+
+        setMessages(msgList);
+      }
+    };
+    temp();
+  }, [conversation]);
 
   if (error) {
     return "An error occurred while initializing the client";
