@@ -1,17 +1,45 @@
-import talentImg from "../../public/assets/talent.png";
 import { useWeb3Auth } from "../hooks/useWeb3Auth";
 
 const Home = () => {
   const { user } = useWeb3Auth();
+
   return (
-    <div className="w-full h-fit flex flex-col space-y-6 bg-purple rounded-b-2xl">
-      <div className="w-full pt-5 flex items-end justify-around">
-        <img src={talentImg} alt="talent-image" width={120} style={{ objectFit: "contain" }}></img>
-        <p className="text-4xl pb-2 text-white">
-          <span className="text-yellow">HI,</span>
-          <br />
-          {user ? user.name?.toUpperCase() : "guest"}
-        </p>
+    <div className="flex flex-col px-2 pt-2 pb-4 h-full space-y-4">
+      <div className="space-y-2">
+        <div>
+          <span className="text-4xl">Education</span>
+        </div>
+        <div className="overflow-x-auto">
+          <div className="flex w-fit space-x-4 pb-2">
+            <div className="bg-white rounded-lg border-app-grey border-2 border-solid h-[220px] w-[270px]"></div>
+            <div className="bg-white rounded-lg border-app-grey border-2 border-solid h-[220px] w-[270px]"></div>
+            <div className="bg-white rounded-lg border-app-grey border-2 border-solid h-[220px] w-[270px]"></div>
+          </div>
+        </div>
+      </div>
+      <div className="space-y-2">
+        <div>
+          <span className="text-4xl">Working Experience</span>
+        </div>
+        <div className="overflow-x-auto">
+          <div className="flex w-fit space-x-4 pb-2">
+            <div className="bg-white rounded-lg border-app-grey border-2 border-solid h-[220px] w-[270px]"></div>
+            <div className="bg-white rounded-lg border-app-grey border-2 border-solid h-[220px] w-[270px]"></div>
+            <div className="bg-white rounded-lg border-app-grey border-2 border-solid h-[220px] w-[270px]"></div>
+          </div>
+        </div>
+      </div>
+      <div className="space-y-2">
+        <div>
+          <span className="text-4xl">Endorsement</span>
+        </div>
+        <div className="overflow-x-auto">
+          <div className="flex w-fit space-x-4 pb-2">
+            <div className="bg-white rounded-lg border-app-grey border-2 border-solid h-[220px] w-[270px]"></div>
+            <div className="bg-white rounded-lg border-app-grey border-2 border-solid h-[220px] w-[270px]"></div>
+            <div className="bg-white rounded-lg border-app-grey border-2 border-solid h-[220px] w-[270px]"></div>
+          </div>
+        </div>
       </div>
     </div>
   );

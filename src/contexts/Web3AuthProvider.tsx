@@ -4,6 +4,8 @@ import { Web3Auth } from "@web3auth/modal";
 import { CHAIN_NAMESPACES, IProvider, WEB3AUTH_NETWORK } from "@web3auth/base";
 import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
 import RPC from "../utils/ethersRPC";
+import { UserType } from "@prisma/client";
+import { APIs } from "../apis/apis";
 
 const clientId =
   "BPOFE71BSG2ocdV7zJCLiiWDrBaTjlTg0iEA1FUKO9ONkj-ik8P9lDQl4mSLzstn8t1I30bqWvi5HUPKZoLuvUg";
@@ -25,6 +27,9 @@ const privateKeyProvider = new EthereumPrivateKeyProvider({
 });
 
 export const Web3AuthContext = createContext<Web3AuthContextType | null>(null);
+
+const institutionsAddress: `0x${string}`[] = ["0xdf53aBa401072CF0C02013dc459D45F84c3dE100"];
+const companiesAddress: `0x${string}`[] = ["0xd6B912d181533d3881fe48860aEE941d80c05466"];
 
 const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<Partial<IUser>>();
@@ -55,22 +60,30 @@ const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children })
     setIsLoading(isLoading);
   };
 
+  const postLoginFlow = async () => {
+    if (web3Auth.connected && web3Auth.provider) {
+      handleSetIsLoading(true);
+      const user = await web3Auth.getUserInfo();
+      const address = await RPC.getAccounts(web3Auth.provider);
+      const userType: UserType = institutionsAddress.includes(address)
+        ? UserType.INSTITUTION
+        : companiesAddress.includes(address)
+        ? UserType.COMPANY
+        : UserType.TALENT;
+      saveUser({ ...user, userType, address });
+      APIs.createUser(user.email, user.name, address, userType);
+      handleSetIsLoggedIn(true);
+      handleSetIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     const init = async () => {
       if (user) return;
       try {
         await web3Auth.initModal();
         saveWeb3AuthProvider(web3Auth.provider);
-
-        if (web3Auth.connected && web3Auth.provider) {
-          handleSetIsLoading(true);
-          const user = await web3Auth.getUserInfo();
-          const address = await RPC.getAccounts(web3Auth.provider);
-          const userType = "talent"; // to be replaced with other methods to get userType, or if any at all
-          saveUser({ ...user, userType, address });
-          handleSetIsLoggedIn(true);
-          handleSetIsLoading(false);
-        }
+        await postLoginFlow();
       } catch (error) {
         console.error(error);
       }
@@ -90,6 +103,7 @@ const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children })
         handleSetIsLoggedIn,
         isLoading,
         handleSetIsLoading,
+        postLoginFlow,
       }}
     >
       {children}

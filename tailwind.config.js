@@ -6,6 +6,7 @@ export default {
       colors: {
         "app-white": "#FAF8F6",
         "app-green": "#B6EBDD",
+        "app-grey": "#D9D9D9",
         purple: {
           DEFAULT: "#C3B6EB",
           100: "#f3e8ff",

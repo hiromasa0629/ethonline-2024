@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 
 const getChainId = async (provider: IProvider): Promise<any> => {
   try {
-    const ethersProvider = new ethers.BrowserProvider(provider);
+    const ethersProvider = new ethers.providers.Web3Provider(provider);
     // Get the connected Chain's ID
     const networkDetails = await ethersProvider.getNetwork();
     return networkDetails.chainId.toString();
@@ -14,7 +14,7 @@ const getChainId = async (provider: IProvider): Promise<any> => {
 
 const getAccounts = async (provider: IProvider): Promise<any> => {
   try {
-    const ethersProvider = new ethers.BrowserProvider(provider);
+    const ethersProvider = new ethers.providers.Web3Provider(provider);
     const signer = await ethersProvider.getSigner();
 
     // Get user's Ethereum public address
@@ -28,14 +28,14 @@ const getAccounts = async (provider: IProvider): Promise<any> => {
 
 const getBalance = async (provider: IProvider): Promise<string> => {
   try {
-    const ethersProvider = new ethers.BrowserProvider(provider);
+    const ethersProvider = new ethers.providers.Web3Provider(provider);
     const signer = await ethersProvider.getSigner();
 
     // Get user's Ethereum public address
     const address = signer.getAddress();
 
     // Get user's balance in ether
-    const balance = ethers.formatEther(
+    const balance = ethers.utils.formatEther(
       await ethersProvider.getBalance(address) // Balance is in wei
     );
 
@@ -47,12 +47,12 @@ const getBalance = async (provider: IProvider): Promise<string> => {
 
 const sendTransaction = async (provider: IProvider): Promise<any> => {
   try {
-    const ethersProvider = new ethers.BrowserProvider(provider);
+    const ethersProvider = new ethers.providers.Web3Provider(provider);
     const signer = await ethersProvider.getSigner();
 
     const destination = "0x40e1c367Eca34250cAF1bc8330E9EddfD403fC56";
 
-    const amount = ethers.parseEther("0.001");
+    const amount = ethers.utils.parseEther("0.001");
 
     // Submit transaction to the blockchain
     const tx = await signer.sendTransaction({
@@ -75,7 +75,7 @@ const signMessage = async (provider: IProvider): Promise<any> => {
   try {
     // For ethers v5
     // const ethersProvider = new ethers.providers.Web3Provider(provider);
-    const ethersProvider = new ethers.BrowserProvider(provider);
+    const ethersProvider = new ethers.providers.Web3Provider(provider);
 
     // For ethers v5
     // const signer = ethersProvider.getSigner();
