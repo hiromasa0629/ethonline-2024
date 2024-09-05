@@ -38,7 +38,7 @@ function Layout() {
 
   return (
     <>
-      <div className="flex flex-col w-screen overflow-y-scroll pb-24">
+      <div className="flex flex-col w-screen h-screen overflow-y-scroll bg-app-white pb-28">
         <main className="flex-grow">
           <Outlet />
         </main>
