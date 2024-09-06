@@ -1,34 +1,23 @@
 import { useContext } from "react";
 import { SignProtocolContext } from "../contexts/SignProtocolProvider";
-import { SignProtocolContextType } from "../@types/sign";
+import { SignObject, SignProtocolContextType } from "../@types/sign";
 import { AttestationInfo } from "@ethsign/sp-sdk/dist/types/indexService";
 import { IndexService } from "@ethsign/sp-sdk";
 import { decodeAbiParameters } from "viem";
 
 export const useSignAttestation = () => {
-  const { signClient } = useContext(
-    SignProtocolContext
-  ) as SignProtocolContextType;
+  const { signClient } = useContext(SignProtocolContext) as SignProtocolContextType;
 
-  const createAttestation = async () => {
+  const createAttestation = async (signObject: SignObject) => {
     if (!signClient) return;
-    const res = await signClient.createAttestation({
-      schemaId: "0xc4",
-      data: {
-        name: "Hello world",
-      },
-      indexingValue: "-",
-    });
+    const res = await signClient.createAttestation(signObject);
 
-    console.log(res);
+    console.log("[Sign] Result:", res);
   };
 
   const parseAttestation = (attestation: AttestationInfo) => {
     const schema = attestation.schema;
-    const data = decodeAbiParameters(
-      schema.data,
-      attestation.data as `0x${string}`
-    );
+    const data = decodeAbiParameters(schema.data, attestation.data as `0x${string}`);
     console.log(attestation);
     console.log(data);
   };
