@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useLitProtocol } from "./hooks/useLitProtocol";
 import { useSignSchema } from "./hooks/useSignSchema";
 import { useWeb3Auth } from "./hooks/useWeb3Auth";
@@ -6,11 +6,15 @@ import { useWeb3Auth } from "./hooks/useWeb3Auth";
 function App() {
   const { user, handleLogIn, handleLogOut, isLoggedIn } = useWeb3Auth();
   const { createSchema } = useSignSchema();
-  const { isReady, signMessage } = useLitProtocol();
+  const { isReady, getPkpSessionSignatures, encrypt } = useLitProtocol();
 
   const testSign = async () => {
-    const message = await signMessage("Hi");
-    console.log(message);
+    // const message = await signMessage("Hi");
+    // const message = await getPkpSessionSignatures();
+    // console.log(message);
+
+    const encrypted = await encrypt("Hola");
+    console.log(encrypted);
   };
 
   return (

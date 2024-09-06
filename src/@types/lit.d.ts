@@ -13,4 +13,9 @@ export type LitProtocolContextType = {
   contractClient?: LitContracts;
   pkp?: PKP;
   pkpClient?: PKPClient;
+  authMethod?: {
+    authMethodType: AuthMethodType;
+    accessToken: string;
+  };
+  sessionSignatures?: Record<string, AuthSig>;
 };
