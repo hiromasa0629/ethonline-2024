@@ -17,7 +17,7 @@ const Chat = () => {
   const { canMessage } = useCanMessage();
   const { sendMessage } = useSendMessage();
   const { startConversation } = useStartConversation();
-  const ethersProvider = new ethers.BrowserProvider(web3AuthProvider as IProvider);
+  const ethersProvider = new ethers.providers.Web3Provider(web3AuthProvider as IProvider);
 
   const onSendMessage = async (text: any) => {
     await sendMessage(conversation, "message");
