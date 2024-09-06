@@ -34,6 +34,7 @@ export default {
       },
       fontFamily: {
         sans: ['"Bakbak One"'],
+        poppins: ['"Poppins"'],
       },
     },
   },
