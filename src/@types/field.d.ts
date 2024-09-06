@@ -1,7 +1,7 @@
 export type FieldType = {
   name: string;
   label: string;
-  type: "input" | "textarea" | "date";
+  type: "input" | "textarea" | "date" | "autocomplete";
   placeholder?: string;
 };
 

@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@biconomy/account": "^4.6.1",
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@ethsign/sp-sdk": "^0.7.2",
     "@prisma/client": "5.19.1",
@@ -20,9 +21,9 @@
     "axios": "^1.7.7",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
+    "date-fns": "^3.6.0",
     "ethers": "^5",
     "express": "^4.19.2",
-    "date-fns": "^3.6.0",
     "react": "^18.3.1",
     "react-datepicker": "^7.3.0",
     "react-dom": "^18.3.1",

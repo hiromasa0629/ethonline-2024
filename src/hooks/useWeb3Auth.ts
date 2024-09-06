@@ -13,6 +13,8 @@ export const useWeb3Auth = () => {
     isLoggedIn,
     postLoginFlow,
     isLoading,
+    web3AuthSigner,
+    smartWallet,
   } = useContext(Web3AuthContext) as Web3AuthContextType;
 
   console.log(user?.address);
@@ -20,7 +22,7 @@ export const useWeb3Auth = () => {
   const handleLogIn = async () => {
     const provider = await web3Auth.connect();
     saveWeb3AuthProvider(provider);
-    await postLoginFlow();
+    await postLoginFlow(provider);
   };
 
   const handleLogOut = async () => {
@@ -37,5 +39,7 @@ export const useWeb3Auth = () => {
     web3AuthProvider,
     isLoggedIn,
     isLoading,
+    web3AuthSigner,
+    smartWallet,
   };
 };

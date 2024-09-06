@@ -26,10 +26,10 @@ const createUser = async (
   name: string | undefined,
   address: string | undefined,
   userType: UserType
-) => {
+): Promise<User> => {
   const u = await getTalentByEmail(email ?? "");
-  if (u) return;
-  await apiClient.post("/user", { email, name, address, userType });
+  if (u) return u;
+  return (await apiClient.post("/user", { email, name, address, userType })).data;
 };
 
 export const APIs = { getTalentByEmail, getTalents, getCompanies, getInstitutions, createUser };

@@ -4,11 +4,11 @@ export type SignProtocolContextType = {
   signClient?: SignProtocolClient;
 };
 
-export type SignObject = {
-  schemaId: string;
-  data: any;
-  indexingValue: string;
-};
+// export type SignObject = {
+//   schemaId: string;
+//   data: any;
+//   indexingValue: string;
+// };
 
 // {
 // schemaId: "0xc4",

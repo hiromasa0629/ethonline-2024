@@ -40,7 +40,7 @@ app.get("/api/companies", async (_, res) => {
 
 app.post("/api/user", async (req: Request<{}, {}, ReqUserBody>, res) => {
   console.log(req.body);
-  await prisma.user.create({
+  const user = await prisma.user.create({
     data: {
       email: req.body.email,
       address: req.body.address,
@@ -48,7 +48,7 @@ app.post("/api/user", async (req: Request<{}, {}, ReqUserBody>, res) => {
       userType: req.body.userType,
     },
   });
-  res.status(200).send();
+  res.send(user);
 });
 
 const server = app.listen(port, () => {

@@ -3,7 +3,7 @@ import DynamicForm from "../components/DynamicForm";
 import { useSignAttestation } from "../hooks/useSignAttestation";
 import { useWeb3Auth } from "../hooks/useWeb3Auth";
 
-import config from "../../public/config.json";
+import config from "../config.json";
 
 const formFields: FieldType[] = [
   {

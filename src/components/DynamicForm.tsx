@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FieldType, FormDataType } from "../@types/field";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { User } from "@prisma/client";
+import { APIs } from "../apis/apis";
+import { useWeb3Auth } from "../hooks/useWeb3Auth";
 
 interface DynamicFormProps {
   fields: FieldType[];
@@ -17,6 +20,20 @@ const DynamicForm = ({ fields, type, onSubmit }: DynamicFormProps) => {
     }, {})
   );
 
+  const { user } = useWeb3Auth();
+  const [allTalents, setAllTalents] = useState<User[]>([]);
+  const [autocompleteInput, setAutocompleteInput] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [filteredSuggestions, setFilteredSuggestions] = useState<User[]>([]);
+
+  useEffect(() => {
+    const getUsers = async () => {
+      const talents = await APIs.getTalents();
+      setAllTalents(talents.filter((v) => v.name !== user?.name));
+    };
+    getUsers();
+  }, []);
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (type === "endorse") {
@@ -28,9 +45,34 @@ const DynamicForm = ({ fields, type, onSubmit }: DynamicFormProps) => {
 
   const handleInputChange = (name: string, value: string | Date) => {
     const stringValue = value instanceof Date ? value.toISOString().split("T")[0] : value; // Converts Date to 'YYYY-MM-DD' format
+    if (name === "endorsee_name") {
+      setAutocompleteInput(stringValue);
+      console.log(stringValue);
+      if (stringValue) {
+        const filtered = allTalents.filter((v) =>
+          v.name.toLowerCase().includes(stringValue.toLowerCase())
+        );
+        console.log(filtered);
+        setFilteredSuggestions(filtered);
+        setShowSuggestions(true);
+      } else {
+        setShowSuggestions(false);
+      }
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: stringValue,
+      }));
+    }
+  };
+
+  const handleSuggestionClick = (suggestion: string, address: string) => {
+    setAutocompleteInput(suggestion);
+    setShowSuggestions(false);
     setFormData((prev) => ({
       ...prev,
-      [name]: stringValue,
+      ["endorsee_name"]: suggestion,
+      ["endorsee_address"]: address,
     }));
   };
 
@@ -55,7 +97,7 @@ const DynamicForm = ({ fields, type, onSubmit }: DynamicFormProps) => {
               />
             ) : field.type === "textarea" ? (
               <textarea
-                className="w-full border border-black/80 focus:border-yellow rounded-lg px-2 py-1"
+                className="w-full border border-black/80 focus:border-yellow rounded-lg px-2 py-1 h-[300px]"
                 id={field.label}
                 name={field.name}
                 placeholder={field.placeholder}
@@ -70,6 +112,34 @@ const DynamicForm = ({ fields, type, onSubmit }: DynamicFormProps) => {
                 }}
                 dateFormat="yyyy-MM-dd"
               />
+            ) : field.type === "autocomplete" ? (
+              <div className="relative">
+                <input
+                  className="w-full border border-black/80 focus:border-yellow rounded-lg px-2 py-1"
+                  id={field.label}
+                  name={field.name}
+                  placeholder={field.placeholder}
+                  onChange={(e) => handleInputChange(field.name, e.target.value)}
+                  value={autocompleteInput}
+                />
+                {showSuggestions && (
+                  <ul className="absolute left-0 right-0 bg-white border border-gray-300 mt-1 rounded shadow-lg max-h-48 overflow-y-auto">
+                    {filteredSuggestions.length ? (
+                      filteredSuggestions.map((suggestion, index) => (
+                        <li
+                          key={index}
+                          className="p-2 hover:bg-blue-100 cursor-pointer"
+                          onClick={() => handleSuggestionClick(suggestion.name, suggestion.address)}
+                        >
+                          {suggestion.name}
+                        </li>
+                      ))
+                    ) : (
+                      <li className="p-2 text-gray-500">No suggestions available</li>
+                    )}
+                  </ul>
+                )}
+              </div>
             ) : null}
           </div>
         ))}
