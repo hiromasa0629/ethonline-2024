@@ -4,7 +4,7 @@ import { Client } from "@xmtp/xmtp-js";
 import { Wallet } from "ethers";
 // import qrcode from "qrcode-terminal";
 
-let wallet = new Wallet("28216491274bad61a3e7d4c667222b6d9a8747e81e4809f900a8a008d9c1df44");
+let wallet = new Wallet(process.env.SUNWAY_PRIVATE_KEY);
 let xmtp;
 //Web3Auth
 const WALLET_TO = "0x51ECb56Ef64249B7a956816d102B59c90e996B35";
