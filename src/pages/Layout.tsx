@@ -30,18 +30,21 @@ function Layout() {
       { element: "profile", icon: LuUser, action: () => navigate("/profile") },
       { element: "endorse", icon: LuCheckCircle2, action: () => navigate("/endorse") },
       { element: "settings", icon: LuSettings, action: () => navigate("/settings") },
+      { element: "chat", icon: LuSettings, action: () => navigate("/chat") },
       { element: "logout", icon: LuLogOut, action: handleLogOut },
     ],
     INSTITUTION: [
       { element: "home", icon: LuHome, action: () => navigate("/") },
       { element: "profile", icon: LuUser, action: () => navigate("/profile") },
       { element: "settings", icon: LuSettings, action: () => navigate("/settings") },
+      { element: "chat", icon: LuSettings, action: () => navigate("/chat") },
       { element: "logout", icon: LuLogOut, action: handleLogOut },
     ],
     COMPANY: [
       { element: "home", icon: LuHome, action: () => navigate("/") },
       { element: "profile", icon: LuUser, action: () => navigate("/profile") },
       { element: "settings", icon: LuSettings, action: () => navigate("/settings") },
+      { element: "chat", icon: LuSettings, action: () => navigate("/chat") },
       { element: "logout", icon: LuLogOut, action: handleLogOut },
     ],
   };
