@@ -9,13 +9,13 @@ export const SignProtocolContext = createContext<SignProtocolContextType | null>
 
 const SignProtocolProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [signClient, setSignClient] = useState<SignProtocolClient>();
-  const { web3AuthProvider, smartWallet } = useWeb3Auth();
+  const { web3AuthProvider /* smartWallet */ } = useWeb3Auth();
 
   useEffect(() => {
-    if (!web3AuthProvider || !smartWallet) return;
+    if (!web3AuthProvider) return;
     const wc = createWalletClient({
       chain: baseSepolia,
-      transport: custom(smartWallet.rpcProvider),
+      transport: custom(web3AuthProvider),
     });
     setSignClient(
       new SignProtocolClient(SpMode.OnChain, {
@@ -23,7 +23,7 @@ const SignProtocolProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         walletClient: wc,
       })
     );
-  }, [smartWallet]);
+  }, [web3AuthProvider]);
 
   return (
     <SignProtocolContext.Provider value={{ signClient }}>{children}</SignProtocolContext.Provider>

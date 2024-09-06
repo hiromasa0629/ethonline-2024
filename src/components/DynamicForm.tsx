@@ -29,7 +29,8 @@ const DynamicForm = ({ fields, type, onSubmit }: DynamicFormProps) => {
   useEffect(() => {
     const getUsers = async () => {
       const talents = await APIs.getTalents();
-      setAllTalents(talents.filter((v) => v.name !== user?.name));
+      // setAllTalents(talents.filter((v) => v.name !== user?.name));
+      setAllTalents(talents);
     };
     getUsers();
   }, []);

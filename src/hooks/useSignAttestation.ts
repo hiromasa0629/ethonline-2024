@@ -3,9 +3,11 @@ import { SignProtocolContext } from "../contexts/SignProtocolProvider";
 import { SignProtocolContextType } from "../@types/sign";
 import { AttestationInfo } from "@ethsign/sp-sdk/dist/types/indexService";
 import { Attestation, IndexService } from "@ethsign/sp-sdk";
-import { decodeAbiParameters } from "viem";
+import { decodeAbiParameters, encodeFunctionData, parseAbi } from "viem";
 import { Web3AuthContext } from "../contexts/Web3AuthProvider";
 import { Web3AuthContextType } from "../@types/user";
+import { ethers } from "ethers";
+import { PaymasterMode, UserOpResponse } from "@biconomy/account";
 
 export const useSignAttestation = () => {
   const { signClient } = useContext(SignProtocolContext) as SignProtocolContextType;
@@ -14,10 +16,60 @@ export const useSignAttestation = () => {
   const createAttestation = async (signObject: Attestation) => {
     if (!signClient) return;
     console.log("Creating attestation...");
-    console.log({ signClient });
-    const res = await signClient.createAttestation(signObject);
 
-    console.log("[Sign] Result:", res);
+    console.log([
+      (signObject.data as any).endorsee_name,
+      (signObject.data as any).endorser_name,
+      (signObject.data as any).endorser_position,
+      (signObject.data as any).endorser_text,
+      (signObject.data as any).date_of_endorsement,
+      (signObject.data as any).signature,
+    ]);
+    const encodedCall = encodeFunctionData({
+      abi: parseAbi([
+        "function attest((uint64,uint64,uint64,uint64,address,uint64,uint8,bool,bytes[],bytes),string,bytes,bytes)",
+      ]),
+      functionName: "attest",
+      args: [
+        [
+          BigInt(signObject.schemaId),
+          BigInt(0),
+          BigInt(0),
+          BigInt(0),
+          signObject.attester as `0x${string}`,
+          BigInt(0),
+          0,
+          false,
+          signObject.recipients as `0x${string}`[],
+          ethers.utils.defaultAbiCoder.encode(
+            ["string", "string", "string", "string", "string", "string"],
+            [
+              (signObject.data as any).endorsee_name,
+              (signObject.data as any).endorser_name,
+              (signObject.data as any).endorser_position,
+              (signObject.data as any).endorser_text,
+              (signObject.data as any).date_of_endorsement,
+              (signObject.data as any).signature,
+            ]
+          ) as `0x${string}`,
+        ],
+        signObject.recipients![0],
+        "0x",
+        "0x00",
+      ],
+    });
+
+    const tx = {
+      to: "0x4e4af2a21ebf62850fD99Eb6253E1eFBb56098cD",
+      data: encodedCall,
+    };
+
+    const { waitForTxHash } = (await smartWallet?.sendTransaction(tx, {
+      paymasterServiceData: { mode: PaymasterMode.SPONSORED },
+    })) as UserOpResponse;
+    const { transactionHash, userOperationReceipt } = await waitForTxHash();
+
+    console.log(transactionHash, userOperationReceipt);
   };
 
   const parseAttestation = (attestation: AttestationInfo) => {

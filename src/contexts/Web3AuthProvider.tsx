@@ -6,11 +6,13 @@ import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
 import RPC from "../utils/ethersRPC";
 import { User, UserType } from "@prisma/client";
 import { APIs } from "../apis/apis";
-import { createSmartAccountClient, BiconomySmartAccountV2, PaymasterMode } from "@biconomy/account";
+import {
+  createSmartAccountClient,
+  BiconomySmartAccountV2,
+  IPaymaster,
+  createPaymaster,
+} from "@biconomy/account";
 import { ethers } from "ethers";
-import { createWalletClient, custom, http } from "viem";
-import { baseSepolia } from "viem/chains";
-import { privateKeyToAccount } from "viem/accounts";
 
 const clientId =
   "BPOFE71BSG2ocdV7zJCLiiWDrBaTjlTg0iEA1FUKO9ONkj-ik8P9lDQl4mSLzstn8t1I30bqWvi5HUPKZoLuvUg";
@@ -35,8 +37,7 @@ export const Web3AuthContext = createContext<Web3AuthContextType | null>(null);
 
 const biconomyConfig = {
   biconomyPaymasterApiKey: import.meta.env.VITE_BICONOMY_PAYMASTER_API_KEY,
-  bundleUrl:
-    "https://bundler.biconomy.io/api/v2/84532/nJPK7B3ru.dd7f7861-190d-41bd-af80-6877f74b8f44",
+  bundleUrl: `https://bundler.biconomy.io/api/v2/84532/nJPK7B3ru.dd7f7861-190d-41bd-af80-6877f74b8f44`,
 };
 
 console.log(biconomyConfig);
@@ -87,28 +88,20 @@ const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children })
         ? UserType.COMPANY
         : UserType.TALENT;
 
-      const privKey = await provider.request({
-        method: "eth_private_key",
-      });
-      console.log(privKey);
-      console.log(provider);
-
-      const web3AuthWalletClient = createWalletClient({
-        account: privateKeyToAccount(`0x${privKey}`),
-        chain: baseSepolia,
-        transport: http(),
-      });
-
-      // console.log(web3AuthWalletClient);
-
       const ethersProvider = new ethers.providers.Web3Provider(provider);
       setWeb3AuthSigner(ethersProvider.getSigner());
+
+      const paymaster: IPaymaster = await createPaymaster({
+        paymasterUrl: `https://paymaster.biconomy.io/api/v1/84532/${biconomyConfig.biconomyPaymasterApiKey}`,
+        strictMode: false,
+      });
 
       const sw = await createSmartAccountClient({
         signer: ethersProvider.getSigner(),
         biconomyPaymasterApiKey: biconomyConfig.biconomyPaymasterApiKey,
-        paymasterUrl: `https://paymaster.biconomy.io/api/v1/84532/${biconomyConfig.biconomyPaymasterApiKey}`,
+        // paymasterUrl: `https://paymaster.biconomy.io/api/v1/84532/${biconomyConfig.biconomyPaymasterApiKey}`,
         bundlerUrl: biconomyConfig.bundleUrl,
+        paymaster: paymaster,
         rpcUrl: "https://base-sepolia-rpc.publicnode.com",
         chainId: 84532,
       });
