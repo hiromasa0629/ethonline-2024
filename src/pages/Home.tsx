@@ -65,7 +65,10 @@ const TalentHeader: React.FC<HeaderProps> = (props) => {
 
   return (
     <div className="w-full pt-5 flex items-end justify-around min-h-[150px]">
-      <img src={talentImg} alt="talent-image" width={120} style={{ objectFit: "contain" }}></img>
+      <div>
+        <img src={talentImg} alt="talent-image" width={120} style={{ objectFit: "contain" }}></img>
+        <p className="text-white text-center">Talent</p>
+      </div>
       <div>
         <div>
           <span className="text-white">
@@ -89,7 +92,10 @@ const InstitutionHeader: React.FC<HeaderProps> = (props) => {
 
   return (
     <div className="w-full pt-5 flex items-end justify-around min-h-[150px]">
-      <img src={schoolImg} alt="talent-image" width={120} style={{ objectFit: "contain" }}></img>
+      <div>
+        <img src={schoolImg} alt="talent-image" width={120} style={{ objectFit: "contain" }}></img>
+        <p className="text-white text-center">Institution</p>
+      </div>
       <div>
         <div>
           <span className="text-white">
@@ -99,7 +105,8 @@ const InstitutionHeader: React.FC<HeaderProps> = (props) => {
         <p className="text-4xl pb-2 text-white">
           <span className="text-yellow">HI,</span>
           <br />
-          {user ? user.name?.toUpperCase() : "guest"}
+          {/* {user ? user.name?.toUpperCase() : "guest"} */}
+          Sunway Uni
         </p>
       </div>
     </div>
@@ -113,12 +120,15 @@ const CompanyHeader: React.FC<HeaderProps> = (props) => {
 
   return (
     <div className="w-full pt-5 flex items-end justify-around min-h-[150px]">
-      <img
-        src={microscopeImg}
-        alt="talent-image"
-        width={120}
-        style={{ objectFit: "contain" }}
-      ></img>
+      <div>
+        <img
+          src={microscopeImg}
+          alt="talent-image"
+          width={120}
+          style={{ objectFit: "contain" }}
+        ></img>
+        <p className="text-white text-center">Company</p>
+      </div>
       <div>
         <div>
           <span className="text-white">
@@ -128,7 +138,8 @@ const CompanyHeader: React.FC<HeaderProps> = (props) => {
         <p className="text-4xl pb-2 text-white">
           <span className="text-yellow">HI,</span>
           <br />
-          {user ? user.name?.toUpperCase() : "guest"}
+          {/* {user ? user.name?.toUpperCase() : "guest"} */}
+          Sunway Inc.
         </p>
       </div>
     </div>
