@@ -1,13 +1,14 @@
 import { useContext } from "react";
 import { LitProtocolContext } from "../contexts/LitProtocolProvider";
 import { LitProtocolContextType } from "../@types/lit";
-import { LitAbility, LitPKPResource } from "@lit-protocol/auth-helpers";
+import { LitAbility, LitActionResource, LitPKPResource } from "@lit-protocol/auth-helpers";
 import { zipAndEncryptString, decryptToString } from "@lit-protocol/lit-node-client";
 import { api } from "@lit-protocol/wrapped-keys";
+import { signMessageWithEncryptedKey } from "@lit-protocol/wrapped-keys/src/lib/api";
 const { generatePrivateKey } = api;
 
 export const useLitProtocol = () => {
-  const { litClient, contractClient, pkp, pkpClient, authMethod, sessionSignatures } = useContext(
+  const { litClient, contractClient, pkp, privateKey, authMethod, sessionSignatures } = useContext(
     LitProtocolContext
   ) as LitProtocolContextType;
   const unifiedAccessControlConditions = [
@@ -32,12 +33,6 @@ export const useLitProtocol = () => {
     }
   };
 
-  const signMessage = async (message: string | Uint8Array): Promise<string | undefined> => {
-    if (contractClient) {
-      return await contractClient.signer.signMessage(message);
-    }
-  };
-
   const getPkpSessionSignatures = async () => {
     if (litClient && pkp && authMethod) {
       const sessionSignatures = await litClient.getPkpSessionSigs({
@@ -47,6 +42,10 @@ export const useLitProtocol = () => {
           {
             resource: new LitPKPResource("*"),
             ability: LitAbility.PKPSigning,
+          },
+          {
+            resource: new LitActionResource("*"),
+            ability: LitAbility.LitActionExecution,
           },
         ],
         expiration: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30).toISOString(),
@@ -101,16 +100,47 @@ export const useLitProtocol = () => {
     }
   };
 
+  const genPrivKey = async () => {
+    if (sessionSignatures && litClient) {
+      const { pkpAddress, generatedPublicKey, id } = await generatePrivateKey({
+        pkpSessionSigs: sessionSignatures,
+        network: "evm",
+        memo: "This is an arbitrary string you can replace with whatever you'd like",
+        litNodeClient: litClient,
+      });
+
+      return {
+        pkpAddress,
+        generatedPublicKey,
+        id,
+      };
+    }
+  };
+
+  const signMessage = async (message: string) => {
+    if (sessionSignatures && privateKey && litClient) {
+      const signature = await signMessageWithEncryptedKey({
+        pkpSessionSigs: sessionSignatures,
+        litNodeClient: litClient,
+        network: "evm",
+        id: privateKey.id,
+        messageToSign: message,
+      });
+      return signature;
+    }
+  };
+
   // const isReady = litClient && contractClient && pkp && pkpClient;
   const isReady = litClient && pkp;
 
   return {
     isReady,
     disconnectLitClient,
-    signMessage,
     getPkpSessionSignatures,
     encrypt,
     decrypt,
     generateKey,
+    genPrivKey,
+    signMessage,
   };
 };

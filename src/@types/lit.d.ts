@@ -1,6 +1,7 @@
 import { LitContracts } from "@lit-protocol/contracts-sdk";
 import { LitNodeClient } from "@lit-protocol/lit-node-client";
 import { PKPClient } from "@lit-protocol/pkp-client";
+import { GeneratePrivateKeyResult } from "@lit-protocol/wrapped-keys";
 
 export type PKP = {
   ethAddress: string;
@@ -18,4 +19,5 @@ export type LitProtocolContextType = {
     accessToken: string;
   };
   sessionSignatures?: Record<string, AuthSig>;
+  privateKey?: GeneratePrivateKeyResult;
 };
