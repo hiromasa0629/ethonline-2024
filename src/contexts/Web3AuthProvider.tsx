@@ -8,29 +8,29 @@ import RPC from "../utils/ethersRPC";
 const clientId =
   "BPOFE71BSG2ocdV7zJCLiiWDrBaTjlTg0iEA1FUKO9ONkj-ik8P9lDQl4mSLzstn8t1I30bqWvi5HUPKZoLuvUg";
 
-// const chainConfig = {
-//   chainNamespace: CHAIN_NAMESPACES.EIP155,
-//   chainId: "0x14a34",
-//   rpcTarget: "https://base-sepolia-rpc.publicnode.com",
-//   // Avoid using public rpcTarget in production.
-//   // Use services like Infura, Quicknode etc
-//   displayName: "Base Sepolia Testnet",
-//   blockExplorerUrl: "https://sepolia.basescan.org",
-//   ticker: "ETH",
-//   tickerName: "Ethereum",
-// };
-
 const chainConfig = {
   chainNamespace: CHAIN_NAMESPACES.EIP155,
-  chainId: "0x2AC54",
-  rpcTarget: "https://yellowstone-rpc.litprotocol.com/",
+  chainId: "0x14a34",
+  rpcTarget: "https://base-sepolia-rpc.publicnode.com",
   // Avoid using public rpcTarget in production.
   // Use services like Infura, Quicknode etc
-  displayName: "Chronicle Yellowstone - Lit Protocol Testnet",
-  blockExplorerUrl: "https://yellowstone-explorer.litprotocol.com/",
-  ticker: "tstLPX",
-  tickerName: "tstLPX",
+  displayName: "Base Sepolia Testnet",
+  blockExplorerUrl: "https://sepolia.basescan.org",
+  ticker: "ETH",
+  tickerName: "Ethereum",
 };
+
+// const chainConfig = {
+//   chainNamespace: CHAIN_NAMESPACES.EIP155,
+//   chainId: "0x2AC54",
+//   rpcTarget: "https://yellowstone-rpc.litprotocol.com/",
+//   // Avoid using public rpcTarget in production.
+//   // Use services like Infura, Quicknode etc
+//   displayName: "Chronicle Yellowstone - Lit Protocol Testnet",
+//   blockExplorerUrl: "https://yellowstone-explorer.litprotocol.com/",
+//   ticker: "tstLPX",
+//   tickerName: "tstLPX",
+// };
 
 const privateKeyProvider = new EthereumPrivateKeyProvider({
   config: { chainConfig },

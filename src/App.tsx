@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useLitProtocol } from "./hooks/useLitProtocol";
 import { useSignSchema } from "./hooks/useSignSchema";
@@ -6,18 +7,16 @@ import { useWeb3Auth } from "./hooks/useWeb3Auth";
 function App() {
   const { user, handleLogIn, handleLogOut, isLoggedIn } = useWeb3Auth();
   const { createSchema } = useSignSchema();
-  const { isReady, getPkpSessionSignatures, encrypt, signMessage } = useLitProtocol();
+  const { isReady, signMessage } = useLitProtocol();
 
-  const testSign = async () => {
-    // const message = await signMessage("Hi");
-    // const message = await getPkpSessionSignatures();
-    // console.log(message);
+  const signAttestation = async (data: any) => {
+    const signedAttestation = await signMessage(JSON.stringify(data));
 
-    // const encrypted = await encrypt("Hola");
-    // console.log(encrypted);
-
-    const test = await signMessage("Hello");
-    console.log({ test });
+    const attestationData = {
+      ...data,
+      signature: signedAttestation,
+    };
+    console.log({ attestationData });
   };
 
   return (
@@ -38,8 +37,19 @@ function App() {
               </button>
             </div>
             {isReady && (
-              <button onClick={testSign} className="rounded bg-blue-200 p-2">
-                Sign Message
+              <button
+                onClick={() =>
+                  signAttestation({
+                    endorsee_name: "Czer",
+                    endorser_position: "Senior",
+                    endorser_text: "Good job Czer",
+                    endorsee_address: "0x69BaB2a02a84bfD3D68fd3E3963595b6E5Bf90De",
+                    date_of_endorsement: "2024-09-07",
+                  })
+                }
+                className="rounded bg-blue-200 p-2"
+              >
+                Sign Attestation
               </button>
             )}
           </div>

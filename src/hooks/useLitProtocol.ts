@@ -130,8 +130,7 @@ export const useLitProtocol = () => {
     }
   };
 
-  // const isReady = litClient && contractClient && pkp && pkpClient;
-  const isReady = litClient && pkp;
+  const isReady = litClient && sessionSignatures && privateKey;
 
   return {
     isReady,
