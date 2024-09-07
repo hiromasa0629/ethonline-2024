@@ -5,10 +5,3 @@ services:
             - NGROK_AUTHTOKEN=${NGROK_AUTH_TOKEN}
         network_mode: host
         command: http --domain=${NGROK_STATIC_DOMAIN} host.docker.internal:5173
-    postgres:
-        image: postgres
-        restart: always
-        environment: 
-            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-        ports: 
-            - 5432:5432

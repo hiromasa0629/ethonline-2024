@@ -1,10 +1,9 @@
 import React, { createContext, useEffect, useState } from "react";
-import { IUser, User, UserType, Web3AuthContextType } from "../@types/user";
+import { User, UserType, Web3AuthContextType } from "../@types/user";
 import { Web3Auth } from "@web3auth/modal";
 import { CHAIN_NAMESPACES, IProvider, WEB3AUTH_NETWORK } from "@web3auth/base";
 import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
 import RPC from "../utils/ethersRPC";
-import { APIs } from "../apis/apis";
 import {
   createSmartAccountClient,
   BiconomySmartAccountV2,
@@ -13,6 +12,7 @@ import {
 } from "@biconomy/account";
 import { ethers } from "ethers";
 import { useFirestore } from "../hooks/useFirestore";
+import CONFIG from "../config.json";
 
 const clientId =
   "BPOFE71BSG2ocdV7zJCLiiWDrBaTjlTg0iEA1FUKO9ONkj-ik8P9lDQl4mSLzstn8t1I30bqWvi5HUPKZoLuvUg";
@@ -60,9 +60,6 @@ const web3AuthInstance = new Web3Auth({
   privateKeyProvider,
 });
 
-const institutionsAddress: `0x${string}`[] = ["0xdf53aBa401072CF0C02013dc459D45F84c3dE100"];
-const companiesAddress: `0x${string}`[] = ["0xd6B912d181533d3881fe48860aEE941d80c05466"];
-
 const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User>();
   const [web3Auth, _] = useState<Web3Auth>(web3AuthInstance);
@@ -97,9 +94,9 @@ const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children })
       handleSetIsLoading(true);
       const user = await web3Auth.getUserInfo();
       const address = await RPC.getAccounts(provider);
-      const userType: UserType = institutionsAddress.includes(address)
+      const userType: UserType = CONFIG.institutionAddresses.includes(address)
         ? "INSTITUTION"
-        : companiesAddress.includes(address)
+        : CONFIG.companiesAddresses.includes(address)
         ? "COMPANY"
         : "TALENT";
 

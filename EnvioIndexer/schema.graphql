@@ -1,0 +1,50 @@
+type ProofSchemaHook_Approval {
+  id: ID!
+  owner: String!
+  approved: String!
+  tokenId: BigInt!
+}
+
+type ProofSchemaHook_ApprovalForAll {
+  id: ID!
+  owner: String!
+  operator: String!
+  approved: Boolean!
+}
+
+type ProofSchemaHook_BatchMetadataUpdate {
+  id: ID!
+  _fromTokenId: BigInt!
+  _toTokenId: BigInt!
+}
+
+type ProofSchemaHook_MetadataUpdate {
+  id: ID!
+  _tokenId: BigInt!
+}
+
+type ProofSchemaHook_OwnershipTransferred {
+  id: ID!
+  previousOwner: String!
+  newOwner: String!
+}
+
+type ProofSchemaHook_SetCompany {
+  id: ID!
+  attester: String!
+  name: String!
+}
+
+type ProofSchemaHook_SetInstitution {
+  id: ID!
+  attester: String!
+  name: String!
+}
+
+type ProofSchemaHook_Transfer {
+  id: ID!
+  from: String!
+  to: String!
+  tokenId: BigInt!
+}
+

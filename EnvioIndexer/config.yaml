@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=./node_modules/envio/evm.schema.json
+name: ProofIndexer
+networks:
+- id: 84532
+  start_block: 0
+  contracts:
+  - name: ProofSchemaHook
+    address:
+    - 0x5995d4336B086b275B4156e2C276585198f7fEd3
+    handler: src/EventHandlers.ts
+    events:
+    - event: Approval(address indexed owner, address indexed approved, uint256 indexed tokenId)
+    - event: ApprovalForAll(address indexed owner, address indexed operator, bool approved)
+    - event: BatchMetadataUpdate(uint256 _fromTokenId, uint256 _toTokenId)
+    - event: MetadataUpdate(uint256 _tokenId)
+    - event: OwnershipTransferred(address indexed previousOwner, address indexed newOwner)
+    - event: SetCompany(address indexed attester, string name)
+    - event: SetInstitution(address indexed attester, string name)
+    - event: Transfer(address indexed from, address indexed to, uint256 indexed tokenId)
+rollback_on_reorg: false

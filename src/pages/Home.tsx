@@ -8,11 +8,20 @@ import { useFirestore } from "../hooks/useFirestore";
 import ViewEducation from "../components/ViewEducation";
 import ViewEndorsement from "../components/ViewEndorsement";
 import ViewExperience from "../components/ViewExperience";
+import { useQuery } from "@apollo/client";
+import { GET_COMPANIES } from "../graphql/queries";
+import { useCompanies } from "../hooks/useCompanies";
+import { useInstitutions } from "../hooks/useInstitutions";
 
 const Home = () => {
   const { user } = useWeb3Auth();
   const [attestations, setAttestations] = useState<any[]>([]);
   const { findAllDocumentsWhere } = useFirestore();
+  const { companies } = useCompanies();
+  const { institutions } = useInstitutions();
+
+  console.log({ companies });
+  console.log({ institutions });
 
   useEffect(() => {
     const getAttestations = async () => {
