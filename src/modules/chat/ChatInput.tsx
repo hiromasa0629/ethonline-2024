@@ -20,12 +20,10 @@ const ChatInput = ({ onSendMessage, disabled }: { onSendMessage: any; disabled: 
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && handleSend()}
         placeholder="Type your message..."
-        disabled={disabled}
       />
       <button
         className="ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600"
         onClick={handleSend}
-        disabled={disabled}
       >
         Send
       </button>
