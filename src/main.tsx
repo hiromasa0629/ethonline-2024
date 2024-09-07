@@ -7,6 +7,7 @@ import Web3AuthProvider from "./contexts/Web3AuthProvider.tsx";
 import SignProtocolProvider from "./contexts/SignProtocolProvider.tsx";
 import LitProtocolProvider from "./contexts/LitProtocolProvider.tsx";
 import { XMTPProvider } from "@xmtp/react-sdk";
+import { ChatProvider } from "./modules/chat/ChatContext.tsx";
 
 WebApp.ready();
 
@@ -15,7 +16,9 @@ createRoot(document.getElementById("root")!).render(
     <SignProtocolProvider>
       <XMTPProvider>
         <LitProtocolProvider>
-          <App />
+          <ChatProvider>
+            <App />
+          </ChatProvider>
         </LitProtocolProvider>
       </XMTPProvider>
     </SignProtocolProvider>
