@@ -28,11 +28,11 @@ const formFields: FieldType[] = [
 
 const Endorsement = () => {
   const { user } = useWeb3Auth();
-  const { createAttestation } = useSignAttestation();
+  const { createEndorsementAttestation } = useSignAttestation();
 
   const handleFormSubmit = (formDataType: FormDataType) => {
     console.log(formDataType);
-    createAttestation({
+    createEndorsementAttestation({
       schemaId: config.schemaId.endorsement,
       data: {
         endorsee_name: formDataType["endorsee_name"],
@@ -42,7 +42,7 @@ const Endorsement = () => {
         date_of_endorsement: new Date().toISOString(),
         signature: "0x1234",
       },
-      attester: user?.address as `0x${string}`,
+      attester: user?.swAddress as `0x${string}`,
       indexingValue: String(formDataType["endorsee_address"]),
       recipients: [String(formDataType["endorsee_address"])],
     });

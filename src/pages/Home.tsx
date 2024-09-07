@@ -2,8 +2,7 @@ import { useWeb3Auth } from "../hooks/useWeb3Auth";
 import talentImg from "../assets/talent.png";
 import schoolImg from "../assets/school.png";
 import microscopeImg from "../assets/microscope.png";
-import { IUser } from "../@types/user";
-import { UserType } from "@prisma/client";
+import { IUser, User } from "../@types/user";
 
 const Home = () => {
   const { user } = useWeb3Auth();
@@ -13,9 +12,9 @@ const Home = () => {
       <div className="w-full h-fit flex flex-col space-y-6 bg-purple rounded-b-2xl">
         {user && (
           <>
-            {user.userType === UserType.TALENT ? (
+            {user.userType === "TALENT" ? (
               <TalentHeader user={user} />
-            ) : user.userType === UserType.INSTITUTION ? (
+            ) : user.userType === "INSTITUTION" ? (
               <InstitutionHeader user={user} />
             ) : (
               <CompanyHeader user={user} />
@@ -68,7 +67,7 @@ const Home = () => {
 export default Home;
 
 interface HeaderProps {
-  user: Partial<IUser>;
+  user: User;
 }
 
 const TalentHeader: React.FC<HeaderProps> = (props) => {
@@ -82,7 +81,7 @@ const TalentHeader: React.FC<HeaderProps> = (props) => {
       <div>
         <div>
           <span className="text-white">
-            {user.address?.slice(0, 7)}...{user?.address?.slice(-5) || ""}
+            {user.eoaAddress?.slice(0, 7)}...{user.eoaAddress?.slice(-5) || ""}
           </span>
         </div>
         <p className="text-4xl pb-2 text-white">
@@ -106,7 +105,7 @@ const InstitutionHeader: React.FC<HeaderProps> = (props) => {
       <div>
         <div>
           <span className="text-white">
-            {user.address?.slice(0, 7)}...{user?.address?.slice(-5) || ""}
+            {user.eoaAddress?.slice(0, 7)}...{user.eoaAddress?.slice(-5) || ""}
           </span>
         </div>
         <p className="text-4xl pb-2 text-white">
@@ -135,7 +134,7 @@ const CompanyHeader: React.FC<HeaderProps> = (props) => {
       <div>
         <div>
           <span className="text-white">
-            {user.address?.slice(0, 7)}...{user?.address?.slice(-5) || ""}
+            {user.eoaAddress?.slice(0, 7)}...{user.eoaAddress?.slice(-5) || ""}
           </span>
         </div>
         <p className="text-4xl pb-2 text-white">

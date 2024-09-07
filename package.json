@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host",
+    "dev": "concurrently --kill-others \"vite --host\" \"vite-node --watch src/backend/express.ts\"",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -13,7 +13,6 @@
     "@biconomy/account": "^4.6.1",
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@ethsign/sp-sdk": "^0.7.2",
-    "@prisma/client": "5.19.1",
     "@twa-dev/sdk": "^7.8.0",
     "@web3auth/base": "^8.12.4",
     "@web3auth/ethereum-provider": "^8.12.4",
@@ -50,7 +49,6 @@
     "eslint-plugin-react-refresh": "^0.4.9",
     "globals": "^15.9.0",
     "postcss": "^8.4.41",
-    "prisma": "^5.19.1",
     "tailwindcss": "^3.4.10",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4",

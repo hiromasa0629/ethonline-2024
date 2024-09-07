@@ -10,6 +10,7 @@ import {
   getDocs,
   DocumentData,
 } from "firebase/firestore";
+import { User } from "../@types/user";
 
 // type FirestoreHook = {
 //   addDocument: (collectionPath: string, data: DocumentData, ) => Promise<string>;
@@ -103,10 +104,16 @@ export function useFirestore() {
     return querySnapshot.docs.map((doc) => doc.data());
   };
 
+  const findTalents = async (): Promise<User[]> => {
+    const users = await findAllDocumentsWhere("users", "userType", "TALENT");
+    return users as User[];
+  };
+
   return {
     addDocument,
     modifyDocument,
     findDocument,
     findAllDocumentsWhere,
+    findTalents,
   };
 }

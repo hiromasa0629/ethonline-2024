@@ -1,4 +1,3 @@
-import { User, UserType } from "@prisma/client";
 import { IProvider, UserInfo } from "@web3auth/base";
 import { Web3Auth } from "@web3auth/modal";
 import { ethers } from "ethers";
@@ -28,5 +27,15 @@ export type ReqUserBody = {
   email: string;
   name: string;
   address: string;
+  userType: UserType;
+};
+
+export type UserType = "TALENT" | "INSTITUTION" | "COMPANY";
+
+export type User = {
+  name: string;
+  email: string;
+  eoaAddress: string;
+  swAddress: string;
   userType: UserType;
 };

@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { FieldType, FormDataType } from "../@types/field";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { User } from "@prisma/client";
-import { APIs } from "../apis/apis";
 import { useWeb3Auth } from "../hooks/useWeb3Auth";
+import { User } from "../@types/user";
+import { useFirestore } from "../hooks/useFirestore";
 
 interface DynamicFormProps {
   fields: FieldType[];
@@ -21,6 +21,7 @@ const DynamicForm = ({ fields, type, onSubmit }: DynamicFormProps) => {
   );
 
   const { user } = useWeb3Auth();
+  const { findTalents } = useFirestore();
   const [allTalents, setAllTalents] = useState<User[]>([]);
   const [autocompleteInput, setAutocompleteInput] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -28,7 +29,7 @@ const DynamicForm = ({ fields, type, onSubmit }: DynamicFormProps) => {
 
   useEffect(() => {
     const getUsers = async () => {
-      const talents = await APIs.getTalents();
+      const talents = await findTalents();
       // setAllTalents(talents.filter((v) => v.name !== user?.name));
       setAllTalents(talents);
     };
@@ -130,7 +131,9 @@ const DynamicForm = ({ fields, type, onSubmit }: DynamicFormProps) => {
                         <li
                           key={index}
                           className="p-2 hover:bg-blue-100 cursor-pointer"
-                          onClick={() => handleSuggestionClick(suggestion.name, suggestion.address)}
+                          onClick={() =>
+                            handleSuggestionClick(suggestion.name, suggestion.swAddress)
+                          }
                         >
                           {suggestion.name}
                         </li>

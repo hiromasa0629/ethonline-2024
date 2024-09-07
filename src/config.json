@@ -3,5 +3,11 @@
     "education": "0x19b",
     "work": "0x19c",
     "endorsement": "0x19d"
-  }
+  },
+  "institutionAddresses": [
+    "0xdf53aBa401072CF0C02013dc459D45F84c3dE100"
+  ],
+  "companiesAddresses": [
+    "0xd6B912d181533d3881fe48860aEE941d80c05466"
+  ]
 }

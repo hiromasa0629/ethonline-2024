@@ -1,10 +1,9 @@
 import React, { createContext, useEffect, useState } from "react";
-import { IUser, Web3AuthContextType } from "../@types/user";
+import { IUser, User, UserType, Web3AuthContextType } from "../@types/user";
 import { Web3Auth } from "@web3auth/modal";
 import { CHAIN_NAMESPACES, IProvider, WEB3AUTH_NETWORK } from "@web3auth/base";
 import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
 import RPC from "../utils/ethersRPC";
-import { User, UserType } from "@prisma/client";
 import { APIs } from "../apis/apis";
 import {
   createSmartAccountClient,
@@ -87,10 +86,10 @@ const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children })
       const user = await web3Auth.getUserInfo();
       const address = await RPC.getAccounts(provider);
       const userType: UserType = institutionsAddress.includes(address)
-        ? UserType.INSTITUTION
+        ? "INSTITUTION"
         : companiesAddress.includes(address)
-        ? UserType.COMPANY
-        : UserType.TALENT;
+        ? "COMPANY"
+        : "TALENT";
 
       const ethersProvider = new ethers.providers.Web3Provider(provider);
       setWeb3AuthSigner(ethersProvider.getSigner());
@@ -116,6 +115,7 @@ const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children })
 
       if (user.email) {
         const u = await findDocument("users", user.email);
+        console.log(u);
         if (u) saveUser(u);
         else {
           const res = await addDocument(

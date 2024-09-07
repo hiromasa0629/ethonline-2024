@@ -8,12 +8,15 @@ import { Web3AuthContext } from "../contexts/Web3AuthProvider";
 import { Web3AuthContextType } from "../@types/user";
 import { ethers } from "ethers";
 import { PaymasterMode, UserOpResponse } from "@biconomy/account";
+import { addDoc } from "firebase/firestore";
+import { useFirestore } from "./useFirestore";
 
 export const useSignAttestation = () => {
   const { signClient } = useContext(SignProtocolContext) as SignProtocolContextType;
   const { smartWallet } = useContext(Web3AuthContext) as Web3AuthContextType;
+  const { addDocument } = useFirestore();
 
-  const createAttestation = async (signObject: Attestation) => {
+  const createEndorsementAttestation = async (signObject: Attestation) => {
     if (!signClient) return;
     console.log("Creating attestation...");
 
@@ -69,7 +72,27 @@ export const useSignAttestation = () => {
     })) as UserOpResponse;
     const { transactionHash, userOperationReceipt } = await waitForTxHash();
 
+    console.log("Finish Attesting LFG");
     console.log(transactionHash, userOperationReceipt);
+
+    const createdDoc = await addDocument(
+      "attestations",
+      {
+        recipientName: (signObject.data as any).endorsee_name,
+        recipientSwAddress: signObject.recipients![0],
+        txHash: transactionHash,
+        attestationType: "ENDORSEMENT",
+
+        endorsement_endorser_name: (signObject.data as any).endorser_name,
+        endorsement_endorser_address: signObject.attester as `0x${string}`,
+        endorsement_endorser_position: (signObject.data as any).endorser_position,
+        endorsement_details: (signObject.data as any).endorser_text,
+      },
+      transactionHash
+    );
+
+    console.log("Created attestation in db");
+    console.log(createdDoc);
   };
 
   const parseAttestation = (attestation: AttestationInfo) => {
@@ -93,7 +116,7 @@ export const useSignAttestation = () => {
   };
 
   return {
-    createAttestation,
+    createEndorsementAttestation,
     queryAttestation,
   };
 };
