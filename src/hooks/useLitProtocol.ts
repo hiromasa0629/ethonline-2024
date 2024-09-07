@@ -7,8 +7,40 @@ import { api } from "@lit-protocol/wrapped-keys";
 import { signMessageWithEncryptedKey } from "@lit-protocol/wrapped-keys/src/lib/api";
 const { generatePrivateKey } = api;
 
+export interface Endorsement {
+  endorsee_name: string;
+  endorser_name: string;
+  endorser_position: string;
+  endorser_text: string;
+  date_of_endorsement: Date;
+  signature?: string;
+}
+
+export interface WorkExperience {
+  company_name: string;
+  employee_name: string;
+  job_title: string;
+  supervisor_name: string;
+  supervisor_position: string;
+  supervisor_contact_info: string;
+  start_date: Date;
+  end_date: Date;
+  signature?: string;
+}
+
+export interface Education {
+  university_name: string;
+  degree_title: string;
+  student_name: string;
+  student_id: string;
+  grade: string;
+  start_date: Date;
+  end_date: Date;
+  signature: string;
+}
+
 export const useLitProtocol = () => {
-  const { litClient, contractClient, pkp, privateKey, authMethod, sessionSignatures } = useContext(
+  const { litClient, pkp, privateKey, authMethod, sessionSignatures } = useContext(
     LitProtocolContext
   ) as LitProtocolContextType;
   const unifiedAccessControlConditions = [
@@ -130,6 +162,36 @@ export const useLitProtocol = () => {
     }
   };
 
+  const signEndorsement = async (data: Endorsement) => {
+    const signedAttestation = await signMessage(JSON.stringify(data));
+
+    const attestationData = {
+      ...data,
+      signature: signedAttestation,
+    };
+    return attestationData;
+  };
+
+  const signWorkExperience = async (data: WorkExperience) => {
+    const signedAttestation = await signMessage(JSON.stringify(data));
+
+    const attestationData = {
+      ...data,
+      signature: signedAttestation,
+    };
+    return attestationData;
+  };
+
+  const signEducation = async (data: Education) => {
+    const signedAttestation = await signMessage(JSON.stringify(data));
+
+    const attestationData = {
+      ...data,
+      signature: signedAttestation,
+    };
+    return attestationData;
+  };
+
   const isReady = litClient && sessionSignatures && privateKey;
 
   return {
@@ -141,5 +203,8 @@ export const useLitProtocol = () => {
     generateKey,
     genPrivKey,
     signMessage,
+    signEndorsement,
+    signWorkExperience,
+    signEducation,
   };
 };
