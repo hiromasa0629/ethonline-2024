@@ -1,13 +1,29 @@
 // src/components/ChatInput.js
 import React, { useState } from "react";
+import { apiClient } from "../../apis/apis";
+import { useWeb3Auth } from "../../hooks/useWeb3Auth";
 
-const ChatInput = ({ onSendMessage, disabled }: { onSendMessage: any; disabled: boolean }) => {
+const ChatInput = ({
+  onSendMessage,
+  disabled,
+  receiverAddress,
+}: {
+  onSendMessage: any;
+  disabled: boolean;
+  receiverAddress: any;
+}) => {
   const [input, setInput] = useState("");
+  const { user } = useWeb3Auth();
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (input.trim()) {
       onSendMessage(input);
       setInput("");
+      apiClient.post("/subscribe-to-broadcast", {
+        senderAddress: user?.eoaAddress,
+        receiverAddress: receiverAddress,
+        message: input,
+      });
     }
   };
 
@@ -24,6 +40,7 @@ const ChatInput = ({ onSendMessage, disabled }: { onSendMessage: any; disabled: 
       <button
         className="ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600"
         onClick={handleSend}
+        disabled={disabled}
       >
         Send
       </button>

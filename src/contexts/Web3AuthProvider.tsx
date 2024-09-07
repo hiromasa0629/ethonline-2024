@@ -29,6 +29,18 @@ const chainConfig = {
   tickerName: "Ethereum",
 };
 
+// const chainConfig = {
+//   chainNamespace: CHAIN_NAMESPACES.EIP155,
+//   chainId: "0x2AC54",
+//   rpcTarget: "https://yellowstone-rpc.litprotocol.com/",
+//   // Avoid using public rpcTarget in production.
+//   // Use services like Infura, Quicknode etc
+//   displayName: "Chronicle Yellowstone - Lit Protocol Testnet",
+//   blockExplorerUrl: "https://yellowstone-explorer.litprotocol.com/",
+//   ticker: "tstLPX",
+//   tickerName: "tstLPX",
+// };
+
 const privateKeyProvider = new EthereumPrivateKeyProvider({
   config: { chainConfig },
 });
