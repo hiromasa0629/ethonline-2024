@@ -2,7 +2,7 @@ import { createContext, useState, useContext, Dispatch, SetStateAction } from "r
 
 export type ChatContextType = {
   selectedChat: any;
-  setSelectedChat: Dispatch<SetStateAction<null>>;
+  setSelectedChat: Dispatch<SetStateAction<string>>;
 };
 
 // Create the ChatContext
@@ -10,7 +10,7 @@ const ChatContext = createContext<ChatContextType | undefined>(undefined);
 
 // Provider component
 export const ChatProvider = ({ children }: { children: any }) => {
-  const [selectedChat, setSelectedChat] = useState(null);
+  const [selectedChat, setSelectedChat] = useState("");
 
   return (
     <ChatContext.Provider value={{ selectedChat, setSelectedChat }}>
@@ -21,5 +21,5 @@ export const ChatProvider = ({ children }: { children: any }) => {
 
 // Hook to use the ChatContext
 export const useChat = () => {
-  return useContext(ChatContext);
+  return useContext(ChatContext as React.Context<ChatContextType>);
 };
