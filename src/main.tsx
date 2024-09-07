@@ -10,13 +10,11 @@ import { XMTPProvider } from "@xmtp/react-sdk";
 WebApp.ready();
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <Web3AuthProvider>
-      <SignProtocolProvider>
-        <XMTPProvider>
-          <App />
-        </XMTPProvider>
-      </SignProtocolProvider>
-    </Web3AuthProvider>
-  </StrictMode>
+  <Web3AuthProvider>
+    <SignProtocolProvider>
+      <XMTPProvider>
+        <App />
+      </XMTPProvider>
+    </SignProtocolProvider>
+  </Web3AuthProvider>
 );

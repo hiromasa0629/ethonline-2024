@@ -13,6 +13,7 @@ import {
   createPaymaster,
 } from "@biconomy/account";
 import { ethers } from "ethers";
+import { useFirestore } from "../hooks/useFirestore";
 
 const clientId =
   "BPOFE71BSG2ocdV7zJCLiiWDrBaTjlTg0iEA1FUKO9ONkj-ik8P9lDQl4mSLzstn8t1I30bqWvi5HUPKZoLuvUg";
@@ -60,7 +61,10 @@ const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children })
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const saveUser = (user: User | undefined) => {
+  const { addDocument, findDocument, findAllDocumentsWhere } = useFirestore();
+
+  //   const saveUser = (user: User | undefined) => {
+  const saveUser = (user: any | undefined) => {
     setUser(user);
   };
 
@@ -110,8 +114,26 @@ const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children })
 
       const swAddress = await sw.getAccountAddress();
 
-      const createdUser = await APIs.createUser(user.email, user.name, swAddress, userType);
-      saveUser(createdUser);
+      if (user.email) {
+        const u = await findDocument("users", user.email);
+        if (u) saveUser(u);
+        else {
+          const res = await addDocument(
+            "users",
+            {
+              name: user.name,
+              email: user.email,
+              eoaAddress: address,
+              swAddress: swAddress,
+              userType: userType,
+            },
+            user.email
+          );
+          saveUser(res.data);
+        }
+      } else {
+        console.error("email undefined");
+      }
 
       handleSetIsLoggedIn(true);
       handleSetIsLoading(false);
