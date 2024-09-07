@@ -14,6 +14,7 @@ import ChatWindow from "../modules/chat/ChatWindow";
 import ChatInput from "../modules/chat/ChatInput";
 import BroadcasterDropdown from "../modules/chat/BroadcasterDropdown";
 import { apiClient } from "../apis/apis";
+import ChatList from "../modules/chat/ChatList";
 
 const Chat = () => {
   // Web3Auth stuff
@@ -78,7 +79,7 @@ const Chat = () => {
     const temp = async () => {
       const opts = {
         // Only show messages from last hour
-        startTime: new Date(new Date().getTime() - 60 * 60 * 1000), // 1 hour ago
+        startTime: new Date(new Date().getTime() - 60 * 60 * 4000), // 4 hour ago
         endTime: new Date(), // current time
       };
       if (conversation) {
@@ -106,6 +107,8 @@ const Chat = () => {
   if (isLoading) {
     return "Awaiting signatures...";
   }
+  return <ChatList />;
+
   return (
     <div className="flex flex-col h-[100%] max-h-screen bg-gray-100">
       <p>{user?.eoaAddress}</p>

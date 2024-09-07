@@ -35,26 +35,23 @@ function Layout() {
   const buttonsConfig = {
     TALENT: [
       { element: "home", icon: LuHome, action: () => navigate("/") },
-      { element: "profile", icon: LuUser, action: () => navigate("/profile") },
       { element: "endorse", icon: LuCheckCircle2, action: () => navigate("/endorse") },
-      { element: "settings", icon: LuSettings, action: () => navigate("/settings") },
       { element: "chat", icon: LuSettings, action: () => navigate("/chat") },
+      { element: "search", icon: LuSettings, action: () => navigate("/search") },
       { element: "logout", icon: LuLogOut, action: handleLogOut },
     ],
     INSTITUTION: [
       { element: "home", icon: LuHome, action: () => navigate("/") },
-      { element: "profile", icon: LuUser, action: () => navigate("/profile") },
       { element: "certify", icon: LuFileBadge, action: () => navigate("/education") },
-      { element: "settings", icon: LuSettings, action: () => navigate("/settings") },
       { element: "chat", icon: LuSettings, action: () => navigate("/chat") },
+      { element: "search", icon: LuSettings, action: () => navigate("/search") },
       { element: "logout", icon: LuLogOut, action: handleLogOut },
     ],
     COMPANY: [
       { element: "home", icon: LuHome, action: () => navigate("/") },
-      { element: "profile", icon: LuUser, action: () => navigate("/profile") },
       { element: "work", icon: LuHardHat, action: () => navigate("/work-exp") },
-      { element: "settings", icon: LuSettings, action: () => navigate("/settings") },
       { element: "chat", icon: LuSettings, action: () => navigate("/chat") },
+      { element: "search", icon: LuSettings, action: () => navigate("/search") },
       { element: "logout", icon: LuLogOut, action: handleLogOut },
     ],
   };
