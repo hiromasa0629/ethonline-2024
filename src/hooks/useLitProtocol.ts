@@ -12,7 +12,7 @@ export interface Endorsement {
   endorser_name: string;
   endorser_position: string;
   endorser_text: string;
-  date_of_endorsement: Date;
+  date_of_endorsement: string;
   signature?: string;
 }
 
@@ -23,8 +23,8 @@ export interface WorkExperience {
   supervisor_name: string;
   supervisor_position: string;
   supervisor_contact_info: string;
-  start_date: Date;
-  end_date: Date;
+  start_date: string;
+  end_date: string;
   signature?: string;
 }
 
@@ -34,9 +34,9 @@ export interface Education {
   student_name: string;
   student_id: string;
   grade: string;
-  start_date: Date;
-  end_date: Date;
-  signature: string;
+  start_date: string;
+  end_date: string;
+  signature?: string;
 }
 
 export const useLitProtocol = () => {

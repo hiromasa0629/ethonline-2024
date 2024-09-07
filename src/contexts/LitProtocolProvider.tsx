@@ -142,7 +142,7 @@ const LitProtocolProvider: React.FC<{ children: React.ReactNode }> = ({ children
             ability: LitAbility.LitActionExecution,
           },
         ],
-        expiration: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30).toISOString(),
+        expiration: new Date(Date.now() + 1000 * 60 * 15).toISOString(),
       });
       setSessionSignatures(sessionSignatures);
       console.log("✅ Session signature created");

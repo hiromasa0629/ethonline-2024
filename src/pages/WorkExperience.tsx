@@ -4,6 +4,7 @@ import { useSignAttestation } from "../hooks/useSignAttestation";
 import { useWeb3Auth } from "../hooks/useWeb3Auth";
 
 import config from "../config.json";
+import { useLitProtocol } from "../hooks/useLitProtocol";
 
 const formFields: FieldType[] = [
   {
@@ -57,22 +58,22 @@ const formFields: FieldType[] = [
 const WorkExperience = () => {
   const { user } = useWeb3Auth();
   const { createExperienceAttestation } = useSignAttestation();
+  const { signWorkExperience } = useLitProtocol();
 
-  const handleFormSubmit = (formDataType: FormDataType) => {
+  const handleFormSubmit = async (formDataType: FormDataType) => {
     console.log(formDataType);
-    createExperienceAttestation({
+    await createExperienceAttestation({
       schemaId: config.schemaId.work,
-      data: {
-        company_name: formDataType["company_name"],
-        employee_name: formDataType["employee_name"],
-        job_title: formDataType["job_title"],
-        supervisor_name: formDataType["supervisor_name"],
-        supervisor_position: formDataType["supervisor_position"],
-        supervisor_contact_info: formDataType["supervisor_contact_info"],
-        start_date: formDataType["start_date"],
-        end_date: formDataType["end_date"],
-        signature: "0x1234",
-      },
+      data: await signWorkExperience({
+        company_name: formDataType["company_name"] as string,
+        employee_name: formDataType["employee_name"] as string,
+        job_title: formDataType["job_title"] as string,
+        supervisor_name: formDataType["supervisor_name"] as string,
+        supervisor_position: formDataType["supervisor_position"] as string,
+        supervisor_contact_info: formDataType["supervisor_contact_info"] as string,
+        start_date: formDataType["start_date"] as string,
+        end_date: formDataType["end_date"] as string,
+      }),
       attester: user?.swAddress as `0x${string}`,
       indexingValue: String(formDataType["employee_address"]),
       recipients: [String(formDataType["employee_address"])],

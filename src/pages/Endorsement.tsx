@@ -4,6 +4,7 @@ import { useSignAttestation } from "../hooks/useSignAttestation";
 import { useWeb3Auth } from "../hooks/useWeb3Auth";
 
 import config from "../config.json";
+import { useLitProtocol } from "../hooks/useLitProtocol";
 
 const formFields: FieldType[] = [
   {
@@ -29,19 +30,19 @@ const formFields: FieldType[] = [
 const Endorsement = () => {
   const { user } = useWeb3Auth();
   const { createEndorsementAttestation } = useSignAttestation();
+  const { signEndorsement } = useLitProtocol();
 
-  const handleFormSubmit = (formDataType: FormDataType) => {
+  const handleFormSubmit = async (formDataType: FormDataType) => {
     console.log(formDataType);
-    createEndorsementAttestation({
+    await createEndorsementAttestation({
       schemaId: config.schemaId.endorsement,
-      data: {
-        endorsee_name: formDataType["endorsee_name"],
+      data: await signEndorsement({
+        endorsee_name: formDataType["endorsee_name"] as string,
         endorser_name: user?.name ?? "",
-        endorser_position: formDataType["endorser_position"],
-        endorser_text: formDataType["endorser_text"],
+        endorser_position: formDataType["endorser_position"] as string,
+        endorser_text: formDataType["endorser_text"] as string,
         date_of_endorsement: new Date().toISOString(),
-        signature: "0x1234",
-      },
+      }),
       attester: user?.swAddress as `0x${string}`,
       indexingValue: String(formDataType["endorsee_address"]),
       recipients: [String(formDataType["endorsee_address"])],

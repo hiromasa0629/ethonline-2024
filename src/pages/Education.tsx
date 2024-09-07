@@ -4,6 +4,7 @@ import { useSignAttestation } from "../hooks/useSignAttestation";
 import { useWeb3Auth } from "../hooks/useWeb3Auth";
 
 import config from "../config.json";
+import { useLitProtocol } from "../hooks/useLitProtocol";
 
 const formFields: FieldType[] = [
   {
@@ -51,22 +52,22 @@ const formFields: FieldType[] = [
 const Education = () => {
   const { user } = useWeb3Auth();
   const { createCertificateAttestation } = useSignAttestation();
+  const { signEducation } = useLitProtocol();
 
   const handleFormSubmit = async (formDataType: FormDataType) => {
     console.log(formDataType);
     console.log("lol");
     await createCertificateAttestation({
       schemaId: config.schemaId.education,
-      data: {
-        university_name: formDataType["university_name"],
-        degree_title: formDataType["degree_title"],
-        student_name: formDataType["student_name"],
-        student_id: formDataType["student_id"],
-        grade: formDataType["grade"],
-        start_date: formDataType["start_date"],
-        end_date: formDataType["end_date"],
-        signature: "0x123",
-      },
+      data: await signEducation({
+        university_name: formDataType["university_name"] as string,
+        degree_title: formDataType["degree_title"] as string,
+        student_name: formDataType["student_name"] as string,
+        student_id: formDataType["student_id"] as string,
+        grade: formDataType["grade"] as string,
+        start_date: formDataType["start_date"] as string,
+        end_date: formDataType["end_date"] as string,
+      }),
       attester: user?.swAddress as `0x${string}`,
       indexingValue: String(formDataType["student_address"]),
       recipients: [String(formDataType["student_address"])],
