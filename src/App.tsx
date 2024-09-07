@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useLitProtocol } from "./hooks/useLitProtocol";
 import { useEffect, useState } from "react";
 import { useSignSchema } from "./hooks/useSignSchema";
 import { useWeb3Auth } from "./hooks/useWeb3Auth";
