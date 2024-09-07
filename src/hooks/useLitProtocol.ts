@@ -40,7 +40,7 @@ export interface Education {
 }
 
 export const useLitProtocol = () => {
-  const { litClient, pkp, privateKey, authMethod, sessionSignatures } = useContext(
+  const { litClient, authMethod, sessionSignatures } = useContext(
     LitProtocolContext
   ) as LitProtocolContextType;
   const unifiedAccessControlConditions = [
@@ -66,9 +66,9 @@ export const useLitProtocol = () => {
   };
 
   const getPkpSessionSignatures = async () => {
-    if (litClient && pkp && authMethod) {
+    if (litClient && authMethod) {
       const sessionSignatures = await litClient.getPkpSessionSigs({
-        pkpPublicKey: pkp.publicKey!,
+        pkpPublicKey: import.meta.env.VITE_PKP_PUBLIC_KEY,
         authMethods: [authMethod],
         resourceAbilityRequests: [
           {
@@ -150,12 +150,12 @@ export const useLitProtocol = () => {
   };
 
   const signMessage = async (message: string) => {
-    if (sessionSignatures && privateKey && litClient) {
+    if (sessionSignatures && litClient) {
       const signature = await signMessageWithEncryptedKey({
         pkpSessionSigs: sessionSignatures,
         litNodeClient: litClient,
         network: "evm",
-        id: privateKey.id,
+        id: import.meta.env.VITE_WRAPPED_KEY_ID,
         messageToSign: message,
       });
       return signature;
@@ -192,7 +192,7 @@ export const useLitProtocol = () => {
     return attestationData;
   };
 
-  const isReady = litClient && sessionSignatures && privateKey;
+  const isReady = litClient && sessionSignatures;
 
   return {
     isReady,

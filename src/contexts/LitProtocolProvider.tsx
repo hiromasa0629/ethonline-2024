@@ -2,34 +2,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createContext, useEffect, useState } from "react";
 import { LitNodeClient } from "@lit-protocol/lit-node-client";
-import { useWeb3Auth } from "../hooks/useWeb3Auth";
-import { LitNetwork, AuthMethodScope, AuthMethodType } from "@lit-protocol/constants";
-import { LitProtocolContextType, PKP } from "../@types/lit";
-import { LitContracts } from "@lit-protocol/contracts-sdk";
-import {
-  LitAbility,
-  LitAccessControlConditionResource,
-  createSiweMessage,
-  generateAuthSig,
-  LitActionResource,
-  LitPKPResource,
-} from "@lit-protocol/auth-helpers";
-import { PKPClient } from "@lit-protocol/pkp-client";
-import RPC from "../utils/ethersRPC";
-import { ethers } from "ethers";
+import { LitNetwork, AuthMethodType } from "@lit-protocol/constants";
+import { LitProtocolContextType } from "../@types/lit";
+import { LitAbility, LitActionResource, LitPKPResource } from "@lit-protocol/auth-helpers";
 
 export const LitProtocolContext = createContext<LitProtocolContextType | null>(null);
 
 const LitProtocolProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [litClient, setLitClient] = useState<LitNodeClient | undefined>();
-  const [contractClient, setContractClient] = useState<LitContracts | undefined>();
-  const [pkpClient, setPkpClient] = useState<PKPClient>();
-  const [pkp, setPkp] = useState<PKP>({
-    tokenId: "0xb5b52d13b8f2ef5047f779aee3744717c5b42b3afe932187521927c68b45bbca",
-    publicKey:
-      "0483a00fecf237bbd9f37a1fb6694dce84d48b2504afe6f433211eb34d00cc48457e0439e88d00501c64d2ddfdace96d2a38c4959de2fb536bda3014771b9759a3",
-    ethAddress: "0x517f9d8cAa597cAD0419f4816109BD66e722A3BD",
-  });
   const [authMethod, setAuthMethod] = useState<{
     authMethodType: AuthMethodType;
     accessToken: string;
@@ -39,12 +19,6 @@ const LitProtocolProvider: React.FC<{ children: React.ReactNode }> = ({ children
       '{"sig":"0xc880565021d12c6c03cf95f51c2c4b0f47198962f2d9b3589e086ea8fde3142b3fff3279ab200956679128b215ddb1a95b41b4b06d9c05e3820ad4f21a3cdd5f1b","derivedVia":"web3.eth.personal.sign","signedMessage":"localhost wants you to sign in with your Ethereum account:\\n0xDC490966650F19a2040fB3cDB8e85a0e9A7994E3\\n\\nThis is a test statement.  You can put anything you want here. I further authorize the stated URI to perform the following actions on my behalf: (1) \'Threshold\': \'Decryption\' for \'lit-accesscontrolcondition://*\'.\\n\\nURI: http://localhost:5173\\nVersion: 1\\nChain ID: 1\\nNonce: 0x541ca0cd0e22e37fd1256da164113471788285da7e91aac74f639d2202391927\\nIssued At: 2024-09-05T04:01:12.567Z\\nExpiration Time: 2024-10-05T04:01:12.218Z\\nResources:\\n- urn:recap:eyJhdHQiOnsibGl0LWFjY2Vzc2NvbnRyb2xjb25kaXRpb246Ly8qIjp7IlRocmVzaG9sZC9EZWNyeXB0aW9uIjpbe31dfX0sInByZiI6W119","address":"0xDC490966650F19a2040fB3cDB8e85a0e9A7994E3"}',
   });
   const [sessionSignatures, setSessionSignatures] = useState<any>();
-  const [privateKey, setPrivateKey] = useState({
-    pkpAddress: "0x517f9d8cAa597cAD0419f4816109BD66e722A3BD",
-    generatedPublicKey:
-      "0x049a15576cb6e3986f27d97eda7e0d9c52de8e30c640a59ba9a6161e6759ce7bf2b46e01a2b7ed29f0aec6c1307c2fb35bc232dcd413ee93005a6e656f31eace27",
-    id: "4beb6882-f26b-4691-8024-64af02cc088e",
-  });
 
   useEffect(() => {
     const connectLit = async () => {
@@ -115,7 +89,7 @@ const LitProtocolProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // }, [litClient]);
 
   useEffect(() => {
-    if (!pkp || !litClient || !authMethod) return;
+    if (!litClient || !authMethod) return;
     const preparePkpMagic = async () => {
       // const resourceAbilities = [
       //   {
@@ -156,7 +130,7 @@ const LitProtocolProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // console.log("PKP Client Connected");
 
       const sessionSignatures = await litClient.getPkpSessionSigs({
-        pkpPublicKey: pkp.publicKey!,
+        pkpPublicKey: import.meta.env.VITE_PKP_PUBLIC_KEY,
         authMethods: [authMethod],
         resourceAbilityRequests: [
           {
@@ -168,24 +142,20 @@ const LitProtocolProvider: React.FC<{ children: React.ReactNode }> = ({ children
             ability: LitAbility.LitActionExecution,
           },
         ],
-        expiration: new Date(Date.now() + 1000 * 60 * 15).toISOString(),
+        expiration: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30).toISOString(),
       });
       setSessionSignatures(sessionSignatures);
       console.log("✅ Session signature created");
     };
     preparePkpMagic();
-  }, [pkp, litClient, authMethod]);
+  }, [litClient, authMethod]);
 
   return (
     <LitProtocolContext.Provider
       value={{
         litClient,
-        contractClient,
-        pkp,
-        pkpClient,
         authMethod,
         sessionSignatures,
-        privateKey,
       }}
     >
       {children}
