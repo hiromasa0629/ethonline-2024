@@ -3,9 +3,30 @@ import talentImg from "../assets/talent.png";
 import schoolImg from "../assets/school.png";
 import microscopeImg from "../assets/microscope.png";
 import { IUser, User } from "../@types/user";
+import { useEffect, useState } from "react";
+import { useFirestore } from "../hooks/useFirestore";
+import ViewEducation from "../components/ViewEducation";
+import ViewEndorsement from "../components/ViewEndorsement";
+import ViewExperience from "../components/ViewExperience";
 
 const Home = () => {
   const { user } = useWeb3Auth();
+  const [attestations, setAttestations] = useState<any[]>([]);
+  const { findAllDocumentsWhere } = useFirestore();
+
+  useEffect(() => {
+    const getAttestations = async () => {
+      const result = await findAllDocumentsWhere(
+        "attestations",
+        "recipientSwAddress",
+        user!.swAddress
+      );
+      console.log("[Home] Firestore find all returns:", result);
+      setAttestations(result);
+    };
+
+    getAttestations();
+  }, []);
 
   return (
     <>
@@ -23,42 +44,9 @@ const Home = () => {
         )}
       </div>
       <div className="flex flex-col px-2 pt-2 pb-4 h-full space-y-4">
-        <div className="space-y-2">
-          <div>
-            <span className="text-4xl">Education</span>
-          </div>
-          <div className="overflow-x-auto">
-            <div className="flex w-fit space-x-4 pb-2">
-              <div className="bg-white rounded-lg border-app-grey border-2 border-solid h-[220px] w-[270px]"></div>
-              <div className="bg-white rounded-lg border-app-grey border-2 border-solid h-[220px] w-[270px]"></div>
-              <div className="bg-white rounded-lg border-app-grey border-2 border-solid h-[220px] w-[270px]"></div>
-            </div>
-          </div>
-        </div>
-        <div className="space-y-2">
-          <div>
-            <span className="text-4xl">Working Experience</span>
-          </div>
-          <div className="overflow-x-auto">
-            <div className="flex w-fit space-x-4 pb-2">
-              <div className="bg-white rounded-lg border-app-grey border-2 border-solid h-[220px] w-[270px]"></div>
-              <div className="bg-white rounded-lg border-app-grey border-2 border-solid h-[220px] w-[270px]"></div>
-              <div className="bg-white rounded-lg border-app-grey border-2 border-solid h-[220px] w-[270px]"></div>
-            </div>
-          </div>
-        </div>
-        <div className="space-y-2">
-          <div>
-            <span className="text-4xl">Endorsement</span>
-          </div>
-          <div className="overflow-x-auto">
-            <div className="flex w-fit space-x-4 pb-2">
-              <div className="bg-white rounded-lg border-app-grey border-2 border-solid h-[220px] w-[270px]"></div>
-              <div className="bg-white rounded-lg border-app-grey border-2 border-solid h-[220px] w-[270px]"></div>
-              <div className="bg-white rounded-lg border-app-grey border-2 border-solid h-[220px] w-[270px]"></div>
-            </div>
-          </div>
-        </div>
+        <ViewEducation attestations={attestations} />
+        <ViewExperience attestations={attestations} />
+        <ViewEndorsement attestations={attestations} />
       </div>
     </>
   );
