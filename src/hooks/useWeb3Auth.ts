@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { Web3AuthContext } from "../contexts/Web3AuthProvider";
 import { Web3AuthContextType } from "../@types/user";
-import RPC from "../utils/ethersRPC";
 
 export const useWeb3Auth = () => {
   const {
@@ -12,17 +11,18 @@ export const useWeb3Auth = () => {
     saveWeb3AuthProvider,
     handleSetIsLoggedIn,
     isLoggedIn,
+    postLoginFlow,
+    isLoading,
+    web3AuthSigner,
+    smartWallet,
   } = useContext(Web3AuthContext) as Web3AuthContextType;
+
+  console.log(user?.eoaAddress);
 
   const handleLogIn = async () => {
     const provider = await web3Auth.connect();
     saveWeb3AuthProvider(provider);
-    if (web3Auth.connected && provider) {
-      const user = await web3Auth.getUserInfo();
-      const address = await RPC.getAccounts(provider);
-      saveUser({ ...user, address });
-      handleSetIsLoggedIn(true);
-    }
+    await postLoginFlow(provider);
   };
 
   const handleLogOut = async () => {
@@ -38,5 +38,8 @@ export const useWeb3Auth = () => {
     user,
     web3AuthProvider,
     isLoggedIn,
+    isLoading,
+    web3AuthSigner,
+    smartWallet,
   };
 };

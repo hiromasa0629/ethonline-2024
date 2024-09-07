@@ -74,8 +74,8 @@ const sendTransaction = async (provider: IProvider): Promise<any> => {
 const signMessage = async (provider: IProvider): Promise<any> => {
   try {
     // For ethers v5
+    // const ethersProvider = new ethers.providers.Web3Provider(provider);
     const ethersProvider = new ethers.providers.Web3Provider(provider);
-    // const ethersProvider = new ethers.BrowserProvider(provider);
 
     // For ethers v5
     // const signer = ethersProvider.getSigner();
