@@ -57,7 +57,7 @@ const Education = () => {
     createAttestation({
       schemaId: config.schemaId.education,
       data: formDataType,
-      indexingValue: user?.address as string,
+      indexingValue: user?.eoaAddress as string,
     });
   };
 

@@ -63,7 +63,7 @@ const WorkExperience = () => {
     createAttestation({
       schemaId: config.schemaId.work,
       data: formDataType,
-      indexingValue: user?.address as string,
+      indexingValue: user?.eoaAddress as string,
     });
   };
 

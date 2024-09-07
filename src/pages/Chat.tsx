@@ -13,6 +13,7 @@ import { IProvider } from "@web3auth/base";
 import ChatWindow from "../modules/chat/ChatWindow";
 import ChatInput from "../modules/chat/ChatInput";
 import BroadcasterDropdown from "../modules/chat/BroadcasterDropdown";
+import { apiClient } from "../apis/apis";
 
 const Chat = () => {
   // Web3Auth stuff
@@ -39,6 +40,7 @@ const Chat = () => {
   // and start a conversation
   const handleSelectChange = async (e: any) => {
     setSelectedBroadcaster(e.target.value);
+    setStreamedMessages([]);
     const canMsg = await canMessage(e.target.value as string);
     setIsOnNetwork(canMsg);
     if (canMsg) {
@@ -47,6 +49,11 @@ const Chat = () => {
         "I would like to subscribe to this news letter!"
       );
       setConversation(convo.conversation);
+      apiClient.post("/subscribe-to-broadcast", {
+        senderAddress: user?.eoaAddress,
+        receiverAddress: e.target.value,
+        message: "I would like to subscribe to this news letter!",
+      });
     }
   };
 
@@ -101,14 +108,18 @@ const Chat = () => {
   }
   return (
     <div className="flex flex-col h-[100%] max-h-screen bg-gray-100">
-      <p>{user?.address}</p>
+      <p>{user?.eoaAddress}</p>
       <BroadcasterDropdown {...{ selectedBroadcaster, handleSelectChange, isOnNetwork }} />
       <div className="flex-grow overflow-y-auto">
         <ChatWindow {...{ streamedMessages }} />
       </div>
       <div className="relative">
         <div className="absolute bottom-0 left-0 right-0">
-          <ChatInput {...{ onSendMessage }} disabled={selectedBroadcaster !== "" ? true : false} />
+          <ChatInput
+            {...{ onSendMessage }}
+            disabled={isOnNetwork}
+            receiverAddress={selectedBroadcaster}
+          />
         </div>
       </div>
     </div>
