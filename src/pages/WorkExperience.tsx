@@ -15,7 +15,7 @@ const formFields: FieldType[] = [
   {
     label: "Employee Name",
     name: "employee_name",
-    type: "input",
+    type: "autocomplete",
     placeholder: "Input employee name",
   },
   {
@@ -56,14 +56,26 @@ const formFields: FieldType[] = [
 
 const WorkExperience = () => {
   const { user } = useWeb3Auth();
-  const { createAttestation } = useSignAttestation();
+  const { createExperienceAttestation } = useSignAttestation();
 
   const handleFormSubmit = (formDataType: FormDataType) => {
     console.log(formDataType);
-    createAttestation({
+    createExperienceAttestation({
       schemaId: config.schemaId.work,
-      data: formDataType,
-      indexingValue: user?.address as string,
+      data: {
+        company_name: formDataType["company_name"],
+        employee_name: formDataType["employee_name"],
+        job_title: formDataType["job_title"],
+        supervisor_name: formDataType["supervisor_name"],
+        supervisor_position: formDataType["supervisor_position"],
+        supervisor_contact_info: formDataType["supervisor_contact_info"],
+        start_date: formDataType["start_date"],
+        end_date: formDataType["end_date"],
+        signature: "0x1234",
+      },
+      attester: user?.swAddress as `0x${string}`,
+      indexingValue: String(formDataType["employee_address"]),
+      recipients: [String(formDataType["employee_address"])],
     });
   };
 

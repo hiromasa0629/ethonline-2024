@@ -1,7 +1,15 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { useSignSchema } from "../hooks/useSignSchema";
 import { useWeb3Auth } from "../hooks/useWeb3Auth";
-import { LuHome, LuUser, LuSettings, LuLogOut, LuCheckCircle2 } from "react-icons/lu";
+import {
+  LuHome,
+  LuUser,
+  LuSettings,
+  LuLogOut,
+  LuCheckCircle2,
+  LuFileBadge,
+  LuHardHat,
+} from "react-icons/lu";
 import { IconType } from "react-icons";
 
 interface ButtonComponentProps {
@@ -36,6 +44,7 @@ function Layout() {
     INSTITUTION: [
       { element: "home", icon: LuHome, action: () => navigate("/") },
       { element: "profile", icon: LuUser, action: () => navigate("/profile") },
+      { element: "certify", icon: LuFileBadge, action: () => navigate("/education") },
       { element: "settings", icon: LuSettings, action: () => navigate("/settings") },
       { element: "chat", icon: LuSettings, action: () => navigate("/chat") },
       { element: "logout", icon: LuLogOut, action: handleLogOut },
@@ -43,6 +52,7 @@ function Layout() {
     COMPANY: [
       { element: "home", icon: LuHome, action: () => navigate("/") },
       { element: "profile", icon: LuUser, action: () => navigate("/profile") },
+      { element: "work", icon: LuHardHat, action: () => navigate("/work-exp") },
       { element: "settings", icon: LuSettings, action: () => navigate("/settings") },
       { element: "chat", icon: LuSettings, action: () => navigate("/chat") },
       { element: "logout", icon: LuLogOut, action: handleLogOut },

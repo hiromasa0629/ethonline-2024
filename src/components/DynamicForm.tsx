@@ -37,6 +37,7 @@ const DynamicForm = ({ fields, type, onSubmit }: DynamicFormProps) => {
   }, []);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    console.log("Submitting...");
     event.preventDefault();
     if (type === "endorse") {
       formDataType["date_of_endorsement"] = new Date().toISOString().split("T")[0];
@@ -47,7 +48,7 @@ const DynamicForm = ({ fields, type, onSubmit }: DynamicFormProps) => {
 
   const handleInputChange = (name: string, value: string | Date) => {
     const stringValue = value instanceof Date ? value.toISOString().split("T")[0] : value; // Converts Date to 'YYYY-MM-DD' format
-    if (name === "endorsee_name") {
+    if (name === "endorsee_name" || name === "employee_name" || name === "student_name") {
       setAutocompleteInput(stringValue);
       console.log(stringValue);
       if (stringValue) {
@@ -75,6 +76,10 @@ const DynamicForm = ({ fields, type, onSubmit }: DynamicFormProps) => {
       ...prev,
       ["endorsee_name"]: suggestion,
       ["endorsee_address"]: address,
+      ["student_name"]: suggestion,
+      ["student_address"]: address,
+      ["employee_name"]: suggestion,
+      ["employee_address"]: address,
     }));
   };
 
