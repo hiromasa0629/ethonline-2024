@@ -9,14 +9,9 @@ npm i
 
 Create `.env` following `.env.example`
 
-Start `ngrok` and `postgres`
+Start `ngrok`
 ```
 docker compose up -d
-```
-
-Migrate the prisma schema
-```
-npx prisma migrate dev --name --init
 ```
 
 Start the application
