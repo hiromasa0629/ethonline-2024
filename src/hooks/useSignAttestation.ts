@@ -85,6 +85,7 @@ export const useSignAttestation = () => {
         endorsement_endorser_address: signObject.attester as `0x${string}`,
         endorsement_endorser_position: (signObject.data as any).endorser_position,
         endorsement_details: (signObject.data as any).endorser_text,
+        endorsement_date: (signObject.data as any).date_of_endorsement,
       },
       transactionHash
     );
