@@ -108,6 +108,15 @@ export function useFirestore() {
     const users = await findAllDocumentsWhere("users", "userType", "TALENT");
     return users as User[];
   };
+  const findCompanies = async (): Promise<User[]> => {
+    const users = await findAllDocumentsWhere("users", "userType", "COMPANY");
+    return users as User[];
+  };
+
+  const findInstitutions = async (): Promise<User[]> => {
+    const users = await findAllDocumentsWhere("users", "userType", "INSTITUTION");
+    return users as User[];
+  };
 
   return {
     addDocument,
@@ -115,5 +124,7 @@ export function useFirestore() {
     findDocument,
     findAllDocumentsWhere,
     findTalents,
+    findCompanies,
+    findInstitutions,
   };
 }
