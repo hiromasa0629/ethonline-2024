@@ -1,8 +1,8 @@
 import { createContext, useState, useContext, Dispatch, SetStateAction } from "react";
 
 export type ChatContextType = {
-  selectedChat: any;
-  setSelectedChat: Dispatch<SetStateAction<string>>;
+  selectedChat: { name: string; eoaAddress: string };
+  setSelectedChat: Dispatch<SetStateAction<{ name: string; eoaAddress: string }>>;
 };
 
 // Create the ChatContext
@@ -10,7 +10,7 @@ const ChatContext = createContext<ChatContextType | undefined>(undefined);
 
 // Provider component
 export const ChatProvider = ({ children }: { children: any }) => {
-  const [selectedChat, setSelectedChat] = useState("");
+  const [selectedChat, setSelectedChat] = useState({ name: "", eoaAddress: "" });
 
   return (
     <ChatContext.Provider value={{ selectedChat, setSelectedChat }}>
