@@ -240,7 +240,13 @@ export const useSignAttestation = () => {
         ],
         signObject.recipients![0],
         "0x",
-        "0x00",
+        ethers.utils.defaultAbiCoder.encode(
+          ["address", "string"],
+          [
+            signObject.recipients![0] as `0x${string}`,
+            "https://drive.google.com/file/d/18S7KMHBMfTWlo7ho3EbnfNim6pilRTpt/view?usp=sharing",
+          ]
+        ) as `0x${string}`,
       ],
     });
 

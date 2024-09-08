@@ -6,7 +6,7 @@ networks:
   contracts:
   - name: ProofSchemaHook
     address:
-    - 0xBF8a9A7769018B47E5C7b4df440917f930b32Eee
+    - 0x07F82112c7D65F1e31Db6bd5E9492D743cEb2703
     handler: src/EventHandlers.ts
     events:
     - event: Approval(address indexed owner, address indexed approved, uint256 indexed tokenId)
