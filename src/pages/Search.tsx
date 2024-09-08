@@ -7,19 +7,25 @@ import { BROADCASTER } from "../modules/chat/utils";
 import { useWeb3Auth } from "../hooks/useWeb3Auth";
 
 const Search = () => {
-  const { findTalents } = useFirestore();
+  const { findTalents, findCompanies, findInstitutions } = useFirestore();
   const [allTalents, setAllTalents] = useState<User[]>([]);
+  const [allCompanies, setAllCompanies] = useState<User[]>([]);
+  const [allInstitutions, setAllInstitutions] = useState<User[]>([]);
   const [viewType, setViewType] = useState<"talent" | "notTalent">("talent");
   const navigate = useNavigate();
   const { user } = useWeb3Auth();
   const { setSelectedChat } = useChat();
 
   useEffect(() => {
-    const getUsers = async () => {
+    const getEveryone = async () => {
       const talents = await findTalents();
+      const companies = await findCompanies();
+      const institutions = await findInstitutions();
       setAllTalents(talents.filter((v) => v.eoaAddress !== user?.eoaAddress) as any);
+      setAllCompanies(companies.filter((v) => v.eoaAddress !== user?.eoaAddress) as any);
+      setAllInstitutions(institutions.filter((v) => v.eoaAddress !== user?.eoaAddress) as any);
     };
-    getUsers();
+    getEveryone();
   }, []);
 
   return (
@@ -65,7 +71,7 @@ const Search = () => {
               >
                 <div className="flex flex-col">
                   {/* Name */}
-                  <span className="font-semibold text-lg text-gray-800">{talent.name}</span>
+                  <span className="font-semibold text-md text-gray-800">{talent.name}</span>
 
                   {/* eoaAddress */}
                   <span className="text-sm text-gray-500">
@@ -95,12 +101,33 @@ const Search = () => {
                 }}
               >
                 <div className="flex flex-col">
-                  {/* Name */}
-                  <span className="font-semibold text-lg text-gray-800">{key}</span>
-
-                  {/* eoaAddress */}
+                  {/* Name and UserType and eoaAddress */}
+                  <span className="font-semibold text-md text-gray-800">{key}</span>
+                  <span className="text-xs text-gray-600 italic">SUBSCRIBE</span>
                   <span className="text-sm text-gray-500">
                     {BROADCASTER[key].slice(0, 7)}...{BROADCASTER[key].slice(-5) || ""}
+                  </span>
+                </div>
+                <button className="bg-blue-500 text-white px-4 py-1 rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition">
+                  Chat
+                </button>
+              </li>
+            ))}
+            {[...allCompanies, ...allInstitutions].map((talent: any, index: any) => (
+              <li
+                key={index}
+                className="cursor-pointer p-4 mb-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition flex justify-between items-center"
+                onClick={() => {
+                  setSelectedChat({ name: talent.name, eoaAddress: talent.eoaAddress });
+                  navigate("/chat");
+                }}
+              >
+                <div className="flex flex-col">
+                  {/* Name and UserType and eoaAddress */}
+                  <span className="font-semibold text-md text-gray-800">{talent.name}</span>
+                  <span className="text-xs text-gray-600 italic">{talent.userType}</span>
+                  <span className="text-sm text-gray-500">
+                    {talent.eoaAddress.slice(0, 7)}...{talent.eoaAddress.slice(-5) || ""}
                   </span>
                 </div>
                 <button className="bg-blue-500 text-white px-4 py-1 rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition">
