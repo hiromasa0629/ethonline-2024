@@ -59,7 +59,7 @@ function Layout() {
 
   return (
     <>
-      <div className="flex flex-col overflow-y-scroll h-screen">
+      <div className="flex flex-col overflow-y-scroll h-screen bg-app-white">
         <Outlet />
         <footer className="fixed w-full bottom-0 left-0 bg-purple text-white py-4 rounded-t-lg">
           <div className="container mx-auto flex w-full justify-around items-center">

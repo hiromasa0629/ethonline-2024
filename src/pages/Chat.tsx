@@ -128,7 +128,7 @@ const Chat = () => {
 
       {/* Chat input */}
       <div className="relative">
-        <div className="absolute bottom-0 left-0 right-0">
+        <div className="absolute bottom-24 left-0 right-0">
           <ChatInput
             {...{ onSendMessage }}
             disabled={isOnNetwork}

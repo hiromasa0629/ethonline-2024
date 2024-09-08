@@ -31,6 +31,10 @@ const ViewEducation = ({ attestations }: { attestations: any[] }) => {
             return (
               <div
                 key={index}
+                onClick={() =>
+                  (window.location.href =
+                    "https://sepolia.basescan.org/tx/0x902c1f18a4e8704678d68dd36c4408e08f5fb86458550b31ffc5e8c3dcfbfb1c")
+                }
                 className="w-64 h-80 flex flex-col p-4 space-y-2 bg-white rounded-lg border-2 border-app-grey"
               >
                 <div className="w-full flex flex-col flex-1 space-y-[6px]">
