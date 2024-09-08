@@ -72,7 +72,7 @@ const Chat = () => {
     const temp = async () => {
       // const opts = {
       //   // Only show messages from last hour
-      //   startTime: new Date(new Date().getTime() - 60 * 60 * 4000), // 4 hour ago
+      //   startTime: new Date(new Date().getTime() - 60 * 60 * 100), // 1 hour ago
       //   endTime: new Date(), // current time
       // };
       // use like below
@@ -128,7 +128,7 @@ const Chat = () => {
 
       {/* Chat input */}
       <div className="relative">
-        <div className="absolute bottom-24 left-0 right-0">
+        <div className="absolute bottom-[5.5rem] left-0 right-0">
           <ChatInput
             {...{ onSendMessage }}
             disabled={isOnNetwork}
