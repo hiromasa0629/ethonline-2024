@@ -29,7 +29,7 @@ const Search = () => {
   }, []);
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg">
+    <div className="max-w-4xl w-[95%] mx-auto p-6 bg-white rounded-lg">
       {/* Title */}
       <h1 className="text-2xl font-bold text-center mb-6">
         {viewType === "talent" ? "Search for Talents" : "Search for Companies"}
