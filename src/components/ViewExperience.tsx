@@ -33,7 +33,12 @@ const ViewExperience = ({ attestations }: { attestations: any[] }) => {
                 key={index}
                 className="w-64 h-80 flex flex-col p-4 space-y-2 bg-white rounded-lg border-2 border-app-grey"
               >
-                <div className="w-full flex flex-col flex-1 space-y-[6px]">
+                <div
+                  onClick={() =>
+                    (window.location.href = `https://sepolia.basescan.org/tx/${att.txHash}`)
+                  }
+                  className="w-full flex flex-col flex-1 space-y-[6px]"
+                >
                   <p className="font-poppins text-sm">Attested By</p>
                   <p className="text-2xl">{att.experience_company_name.toUpperCase()}</p>
                   <div className="w-full h-[2px] rounded-full bg-black/80" />

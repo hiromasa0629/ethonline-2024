@@ -35,8 +35,7 @@ const ViewEducation = ({ attestations }: { attestations: any[] }) => {
               >
                 <div
                   onClick={() =>
-                    (window.location.href =
-                      "https://sepolia.basescan.org/tx/0x902c1f18a4e8704678d68dd36c4408e08f5fb86458550b31ffc5e8c3dcfbfb1c")
+                    (window.location.href = `https://sepolia.basescan.org/tx/${att.txHash}`)
                   }
                   className="w-full flex flex-col flex-1 space-y-[6px]"
                 >
