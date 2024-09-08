@@ -4,21 +4,27 @@ import { User } from "firebase/auth";
 import { useConversations } from "@xmtp/react-sdk";
 import { useChat } from "./ChatContext";
 import { BROADCASTER } from "./utils";
+import { useWeb3Auth } from "../../hooks/useWeb3Auth";
 
 const ChatList = () => {
-  const { findTalents } = useFirestore();
+  const { findTalents, findCompanies, findInstitutions } = useFirestore();
   const [allTalents, setAllTalents] = useState<User[]>([]);
+  const [allCompanies, setAllCompanies] = useState<User[]>([]);
+  const [allInstitutions, setAllInstitutions] = useState<User[]>([]);
   const { conversations } = useConversations();
   const { setSelectedChat } = useChat();
-  BROADCASTER;
+  const { user } = useWeb3Auth();
 
   useEffect(() => {
-    const getUsers = async () => {
+    const getEveryone = async () => {
       const talents = await findTalents();
-      // setAllTalents(talents.filter((v) => v.name !== user?.name));
-      setAllTalents(talents as any);
+      const companies = await findCompanies();
+      const institutions = await findInstitutions();
+      setAllTalents(talents.filter((v) => v.eoaAddress !== user?.eoaAddress) as any);
+      setAllCompanies(companies.filter((v) => v.eoaAddress !== user?.eoaAddress) as any);
+      setAllInstitutions(institutions.filter((v) => v.eoaAddress !== user?.eoaAddress) as any);
     };
-    getUsers();
+    getEveryone();
   }, []);
   return (
     <div className="max-w-4xl w-[95%] mx-auto p-6 bg-white rounded-lg">
@@ -26,9 +32,11 @@ const ChatList = () => {
 
       <ul className="p-4 bg-gray-50 rounded-lg shadow-inner">
         {conversations.map((convo: any, index: any) => {
-          let name: any = allTalents.filter((talent: any) => {
-            return talent.eoaAddress === convo.peerAddress;
-          });
+          let name: any = [...allTalents, ...allCompanies, ...allInstitutions].filter(
+            (talent: any) => {
+              return talent.eoaAddress === convo.peerAddress;
+            }
+          );
           if (name.length === 0) {
             Object.keys(BROADCASTER).map((key: any) => {
               if (BROADCASTER[key] === convo.peerAddress) {
