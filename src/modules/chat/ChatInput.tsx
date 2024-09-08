@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { apiClient } from "../../apis/apis";
 import { useWeb3Auth } from "../../hooks/useWeb3Auth";
+import { BROADCASTER } from "./utils";
 
 const ChatInput = ({
   onSendMessage,
@@ -18,11 +19,13 @@ const ChatInput = ({
     if (input.trim()) {
       onSendMessage(input);
       setInput("");
-      apiClient.post("/subscribe-to-broadcast", {
-        senderAddress: user?.eoaAddress,
-        receiverAddress: receiverAddress,
-        message: input,
-      });
+      if (Object.values(BROADCASTER).includes(receiverAddress)) {
+        apiClient.post("/subscribe-to-broadcast", {
+          senderAddress: user?.eoaAddress,
+          receiverAddress: receiverAddress,
+          message: input,
+        });
+      }
     }
   };
 
