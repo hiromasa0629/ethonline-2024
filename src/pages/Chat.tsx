@@ -70,13 +70,15 @@ const Chat = () => {
   // Set & Get messages if conversation has been established
   useEffect(() => {
     const temp = async () => {
-      const opts = {
-        // Only show messages from last hour
-        startTime: new Date(new Date().getTime() - 60 * 60 * 4000), // 4 hour ago
-        endTime: new Date(), // current time
-      };
+      // const opts = {
+      //   // Only show messages from last hour
+      //   startTime: new Date(new Date().getTime() - 60 * 60 * 4000), // 4 hour ago
+      //   endTime: new Date(), // current time
+      // };
+      // use like below
+      // const msgs = await conversation.messages(opts);
       if (conversation) {
-        const msgs = await conversation.messages(opts);
+        const msgs = await conversation.messages();
         setStreamedMessages(msgs);
       }
     };
