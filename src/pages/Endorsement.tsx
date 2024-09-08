@@ -5,6 +5,8 @@ import { useWeb3Auth } from "../hooks/useWeb3Auth";
 
 import config from "../config.json";
 import { useLitProtocol } from "../hooks/useLitProtocol";
+import PostAttestationMsg from "../components/PostAttestationMsg";
+import { useState } from "react";
 
 const formFields: FieldType[] = [
   {
@@ -31,6 +33,7 @@ const Endorsement = () => {
   const { user } = useWeb3Auth();
   const { createEndorsementAttestation } = useSignAttestation();
   const { signEndorsement } = useLitProtocol();
+  const [attested, setAttested] = useState(false);
 
   const handleFormSubmit = async (formDataType: FormDataType) => {
     console.log(formDataType);
@@ -46,6 +49,8 @@ const Endorsement = () => {
       attester: user?.swAddress as `0x${string}`,
       indexingValue: String(formDataType["endorsee_address"]),
       recipients: [String(formDataType["endorsee_address"])],
+    }).then(() => {
+      setAttested(true);
     });
   };
 
@@ -55,6 +60,7 @@ const Endorsement = () => {
         <p className="text-4xl text-white">ENDORSEMENT</p>
       </div>
       <DynamicForm fields={formFields} type="endorse" onSubmit={handleFormSubmit} />
+      {attested && <PostAttestationMsg />}
     </div>
   );
 };

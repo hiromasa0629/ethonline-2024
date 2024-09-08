@@ -18,9 +18,15 @@ const PRIVATE_KEY_PAIR: Record<any, any> = {
   "0x51ECb56Ef64249B7a956816d102B59c90e996B35": process.env.WEB3_MONASH_PRIVATE_KEY, // FAS TING WEB3AUTH
   "0xCddB21BC982A58E808b6e594de90aEE71f4D7152": process.env.TAYLORS_PRIVATE_KEY, // Not from WEB3AUTH
 };
+
+const PAIRING: Record<any, any> = {
+  "0x7fd8eae6d31628e947816a31dED60Da39b068FFE": "SUNWAY", // JAMES LIM WEB3AUTH
+  "0x51ECb56Ef64249B7a956816d102B59c90e996B35": "MONASH", // FAS TING WEB3AUTH
+  "0xCddB21BC982A58E808b6e594de90aEE71f4D7152": "TAYLORS", // Not from WEB3AUTH
+};
+
 app.post("/api/subscribe-to-broadcast", async (req: Request<{}, {}, ReqUserBody>, res) => {
   const { senderAddress, receiverAddress, message } = req.body as any;
-  console.log("PRIVATE_KEY_PAIR[receiverAddress]", PRIVATE_KEY_PAIR[receiverAddress]);
   if (!PRIVATE_KEY_PAIR[receiverAddress]) return;
 
   let wallet = new Wallet(PRIVATE_KEY_PAIR[receiverAddress]);
@@ -38,10 +44,12 @@ app.post("/api/subscribe-to-broadcast", async (req: Request<{}, {}, ReqUserBody>
   if (conversation) {
     if (senderAddress !== xmtp.address) {
       if (message === "I would like to subscribe to this news letter!") {
-        await conversation.send("Thank you for subscribing to this news letter!");
+        await conversation.send(
+          `Thank you for subscribing to the ${PAIRING[receiverAddress]} newsletter! We're excited to keep you updated with our latest news and insights. Stay tuned!`
+        );
       } else {
         await conversation.send(
-          "Thank you for contacting us! Our staff will get back to you ASAP! :)"
+          "Thank you for reaching out to us. We have received your message and will respond as soon as possible. Your patience is greatly appreciated."
         );
       }
     }

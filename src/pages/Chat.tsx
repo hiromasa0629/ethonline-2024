@@ -5,31 +5,31 @@ import {
   useStartConversation,
   useStreamMessages,
   DecodedMessage,
+  useDb,
 } from "@xmtp/react-sdk";
 import { useWeb3Auth } from "../hooks/useWeb3Auth";
 import { useCallback, useEffect, useState } from "react";
-import { ethers } from "ethers";
-import { IProvider } from "@web3auth/base";
+
 import ChatWindow from "../modules/chat/ChatWindow";
 import ChatInput from "../modules/chat/ChatInput";
-import BroadcasterDropdown from "../modules/chat/BroadcasterDropdown";
 import { apiClient } from "../apis/apis";
+import ChatList from "../modules/chat/ChatList";
+import { useChat } from "../modules/chat/ChatContext";
+import { BROADCASTER } from "../modules/chat/utils";
 
 const Chat = () => {
   // Web3Auth stuff
-  const { user, web3AuthProvider, isLoggedIn } = useWeb3Auth();
-  const { error, isLoading, initialize } = useClient();
+  const { user } = useWeb3Auth();
+  const { error, isLoading } = useClient();
   // XMTP stuff
   const { canMessage } = useCanMessage();
   const { sendMessage } = useSendMessage();
   const { startConversation } = useStartConversation();
-  // ethers stuff
-  const ethersProvider = new ethers.providers.Web3Provider(web3AuthProvider as IProvider);
   // my stuff
   const [isOnNetwork, setIsOnNetwork] = useState(false);
-  const [selectedBroadcaster, setSelectedBroadcaster] = useState("");
   const [streamedMessages, setStreamedMessages] = useState<any[]>([]);
   const [conversation, setConversation] = useState<any>();
+  const { selectedChat, setSelectedChat } = useChat();
 
   // say no more.
   const onSendMessage = async (text: any) => {
@@ -38,47 +38,41 @@ const Chat = () => {
 
   // When selecting a broadcaster see if broadcaster is available on network
   // and start a conversation
-  const handleSelectChange = async (e: any) => {
-    setSelectedBroadcaster(e.target.value);
+  const handleSelectChange = async () => {
     setStreamedMessages([]);
-    const canMsg = await canMessage(e.target.value as string);
+    const canMsg = await canMessage(selectedChat.eoaAddress as string);
     setIsOnNetwork(canMsg);
     if (canMsg) {
-      const convo = await startConversation(
-        e.target.value as string,
-        "I would like to subscribe to this news letter!"
-      );
+      if (Object.values(BROADCASTER).includes(selectedChat.eoaAddress)) {
+        const convo = await startConversation(
+          selectedChat.eoaAddress as string,
+          "I would like to subscribe to this news letter!"
+        );
+        setConversation(convo.conversation);
+        apiClient.post("/subscribe-to-broadcast", {
+          senderAddress: user?.eoaAddress,
+          receiverAddress: selectedChat.eoaAddress,
+          message: "I would like to subscribe to this news letter!",
+        });
+        return;
+      }
+      const convo = await startConversation(selectedChat.eoaAddress as string, "Helloo.");
       setConversation(convo.conversation);
-      apiClient.post("/subscribe-to-broadcast", {
-        senderAddress: user?.eoaAddress,
-        receiverAddress: e.target.value,
-        message: "I would like to subscribe to this news letter!",
-      });
     }
   };
 
-  // Connect user to chat client
   useEffect(() => {
-    if (isLoggedIn) {
-      const handleConnect = async () => {
-        const options: any = {
-          persistConversations: false,
-          env: "dev",
-        };
-        const signer = await ethersProvider.getSigner();
-        await initialize({ options, signer });
-        // setIsOnNetwork(await canMessage(SUNWAY_ADDY));
-      };
-      handleConnect();
-    }
-  }, [isLoggedIn]);
+    if (selectedChat.eoaAddress === "") return;
+    handleSelectChange();
+  }, [selectedChat]);
+  // Connect user to chat client
 
   // Set & Get messages if conversation has been established
   useEffect(() => {
     const temp = async () => {
       const opts = {
         // Only show messages from last hour
-        startTime: new Date(new Date().getTime() - 60 * 60 * 1000), // 1 hour ago
+        startTime: new Date(new Date().getTime() - 60 * 60 * 4000), // 4 hour ago
         endTime: new Date(), // current time
       };
       if (conversation) {
@@ -98,27 +92,41 @@ const Chat = () => {
   );
 
   useStreamMessages(conversation, { onMessage });
-
-  if (error) {
-    return "An error occurred while initializing the client";
-  }
+  if (selectedChat.eoaAddress === "") return <ChatList />;
+  if (isOnNetwork === false)
+    if (error) {
+      return "An error occurred while initializing the client";
+    }
 
   if (isLoading) {
     return "Awaiting signatures...";
   }
+
   return (
     <div className="flex flex-col h-[100%] max-h-screen bg-gray-100">
-      <p>{user?.eoaAddress}</p>
-      <BroadcasterDropdown {...{ selectedBroadcaster, handleSelectChange, isOnNetwork }} />
+      {/* Header with Back Button and Title */}
+      <div className="flex items-center p-4 bg-white shadow-md">
+        <button
+          onClick={() => setSelectedChat({ name: "", eoaAddress: "" })} // Set to go back to ChatList
+          className="mr-4 bg-blue-500 text-white px-3 py-1 rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition"
+        >
+          Back
+        </button>
+        <p className="font-semibold text-lg text-gray-800">Chatting with: {selectedChat.name}</p>
+      </div>
+
+      {/* Chat window */}
       <div className="flex-grow overflow-y-auto">
         <ChatWindow {...{ streamedMessages }} />
       </div>
+
+      {/* Chat input */}
       <div className="relative">
         <div className="absolute bottom-0 left-0 right-0">
           <ChatInput
             {...{ onSendMessage }}
             disabled={isOnNetwork}
-            receiverAddress={selectedBroadcaster}
+            receiverAddress={selectedChat.eoaAddress}
           />
         </div>
       </div>

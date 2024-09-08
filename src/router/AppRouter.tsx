@@ -6,6 +6,7 @@ import Endorsement from "../pages/Endorsement";
 import Education from "../pages/Education";
 import WorkExperience from "../pages/WorkExperience";
 import Chat from "../pages/Chat";
+import Search from "../pages/Search";
 
 const browserRouter = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const browserRouter = createBrowserRouter([
       {
         path: "/chat",
         element: <Chat />,
+      },
+      {
+        path: "/search",
+        element: <Search />,
       },
     ],
   },

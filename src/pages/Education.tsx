@@ -5,6 +5,8 @@ import { useWeb3Auth } from "../hooks/useWeb3Auth";
 
 import config from "../config.json";
 import { useLitProtocol } from "../hooks/useLitProtocol";
+import { useState } from "react";
+import PostAttestationMsg from "../components/PostAttestationMsg";
 
 const formFields: FieldType[] = [
   {
@@ -53,6 +55,7 @@ const Education = () => {
   const { user } = useWeb3Auth();
   const { createCertificateAttestation } = useSignAttestation();
   const { signEducation } = useLitProtocol();
+  const [attested, setAttested] = useState(false);
 
   const handleFormSubmit = async (formDataType: FormDataType) => {
     console.log(formDataType);
@@ -81,6 +84,8 @@ const Education = () => {
       attester: user?.swAddress as `0x${string}`,
       indexingValue: String(formDataType["student_address"]),
       recipients: [String(formDataType["student_address"])],
+    }).then(() => {
+      setAttested(true);
     });
   };
 
@@ -91,6 +96,7 @@ const Education = () => {
         <p>EDUCATION</p>
       </div>
       <DynamicForm fields={formFields} type="education" onSubmit={handleFormSubmit} />
+      {attested && <PostAttestationMsg />}
     </div>
   );
 };

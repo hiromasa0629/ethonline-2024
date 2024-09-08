@@ -9,6 +9,7 @@ import LitProtocolProvider from "./contexts/LitProtocolProvider.tsx";
 import { XMTPProvider } from "@xmtp/react-sdk";
 import { ApolloProvider } from "@apollo/client";
 import client from "./graphql/apolloClient.ts";
+import { ChatProvider } from "./modules/chat/ChatContext.tsx";
 
 WebApp.ready();
 
@@ -18,7 +19,9 @@ createRoot(document.getElementById("root")!).render(
       <XMTPProvider>
         <LitProtocolProvider>
           <ApolloProvider client={client}>
-            <App />
+            <ChatProvider>
+              <App />
+            </ChatProvider>
           </ApolloProvider>
         </LitProtocolProvider>
       </XMTPProvider>
