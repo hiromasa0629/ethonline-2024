@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { FieldType, FormDataType } from "../@types/field";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useWeb3Auth } from "../hooks/useWeb3Auth";
 import { User } from "../@types/user";
 import { useFirestore } from "../hooks/useFirestore";
 
@@ -20,8 +19,6 @@ const DynamicForm = ({ fields, type, isLoading, onSubmit }: DynamicFormProps) =>
       return acc;
     }, {})
   );
-
-  const { user } = useWeb3Auth();
   const { findTalents } = useFirestore();
   const [allTalents, setAllTalents] = useState<User[]>([]);
   const [autocompleteInput, setAutocompleteInput] = useState("");

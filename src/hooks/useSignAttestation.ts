@@ -1,6 +1,4 @@
 import { useContext } from "react";
-import { SignProtocolContext } from "../contexts/SignProtocolProvider";
-import { SignProtocolContextType } from "../@types/sign";
 import { AttestationInfo } from "@ethsign/sp-sdk/dist/types/indexService";
 import { Attestation, IndexService } from "@ethsign/sp-sdk";
 import { decodeAbiParameters, encodeFunctionData, parseAbi } from "viem";
@@ -11,7 +9,6 @@ import { PaymasterMode, UserOpResponse } from "@biconomy/account";
 import { useFirestore } from "./useFirestore";
 
 export const useSignAttestation = () => {
-  const { signClient } = useContext(SignProtocolContext) as SignProtocolContextType;
   const { smartWallet } = useContext(Web3AuthContext) as Web3AuthContextType;
   const { addDocument } = useFirestore();
 

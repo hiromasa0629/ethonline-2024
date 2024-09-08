@@ -1,11 +1,9 @@
-import { useSignSchema } from "../hooks/useSignSchema";
 import { useWeb3Auth } from "../hooks/useWeb3Auth";
 import books from "../assets/books.png";
 import proof from "../assets/proof.png";
 
 const Login = () => {
-  const { user, handleLogIn, handleLogOut, isLoggedIn, isLoading: isLoginLoading } = useWeb3Auth();
-  const { createSchema } = useSignSchema();
+  const { handleLogIn } = useWeb3Auth();
 
   return (
     <>

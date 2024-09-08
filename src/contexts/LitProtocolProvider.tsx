@@ -10,7 +10,7 @@ export const LitProtocolContext = createContext<LitProtocolContextType | null>(n
 
 const LitProtocolProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [litClient, setLitClient] = useState<LitNodeClient | undefined>();
-  const [authMethod, setAuthMethod] = useState<{
+  const [authMethod, _] = useState<{
     authMethodType: AuthMethodType;
     accessToken: string;
   }>({

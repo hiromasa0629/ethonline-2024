@@ -69,7 +69,7 @@ const Web3AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children })
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { addDocument, findDocument, findAllDocumentsWhere } = useFirestore();
+  const { addDocument, findDocument } = useFirestore();
 
   //   const saveUser = (user: User | undefined) => {
   const saveUser = (user: any | undefined) => {

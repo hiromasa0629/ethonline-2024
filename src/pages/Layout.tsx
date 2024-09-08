@@ -1,5 +1,4 @@
 import { Outlet, useNavigate } from "react-router-dom";
-import { useSignSchema } from "../hooks/useSignSchema";
 import { useWeb3Auth } from "../hooks/useWeb3Auth";
 import {
   LuHome,
@@ -28,7 +27,7 @@ const ButtonComponent = ({ element, icon: Icon, onClickAction }: ButtonComponent
 };
 
 function Layout() {
-  const { user, handleLogIn, handleLogOut, isLoggedIn, isLoading: isLoginLoading } = useWeb3Auth();
+  const { user, handleLogOut } = useWeb3Auth();
   const navigate = useNavigate();
 
   // Role-based button configurations

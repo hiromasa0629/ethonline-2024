@@ -12,7 +12,6 @@
   "dependencies": {
     "@apollo/client": "^3.11.8",
     "@biconomy/account": "^4.6.1",
-    "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@ethsign/sp-sdk": "^0.7.2",
     "@lit-protocol/auth-helpers": "^6.4.10",
     "@lit-protocol/constants": "^6.4.10",
@@ -22,6 +21,7 @@
     "@lit-protocol/pkp-client": "^6.4.10",
     "@lit-protocol/wrapped-keys": "^6.4.10",
     "@twa-dev/sdk": "^7.8.0",
+    "@vitejs/plugin-react": "^4.3.1",
     "@web3auth/base": "^8.12.4",
     "@web3auth/ethereum-provider": "^8.12.4",
     "@web3auth/modal": "^8.12.6",
@@ -42,9 +42,12 @@
     "react-icons": "^5.3.0",
     "react-router-dom": "^6.26.1",
     "viem": "^2.21.0",
+    "vite-plugin-node-polyfills": "^0.22.0",
     "zustand": "^4.5.5"
   },
   "devDependencies": {
+    "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
+    "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
     "@eslint/js": "^9.9.0",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",

@@ -2,14 +2,12 @@ import { useWeb3Auth } from "../hooks/useWeb3Auth";
 import talentImg from "../assets/talent.png";
 import schoolImg from "../assets/school.png";
 import microscopeImg from "../assets/microscope.png";
-import { IUser, User } from "../@types/user";
+import { User } from "../@types/user";
 import { useEffect, useState } from "react";
 import { useFirestore } from "../hooks/useFirestore";
 import ViewEducation from "../components/ViewEducation";
 import ViewEndorsement from "../components/ViewEndorsement";
 import ViewExperience from "../components/ViewExperience";
-import { useQuery } from "@apollo/client";
-import { GET_COMPANIES } from "../graphql/queries";
 import { useCompanies } from "../hooks/useCompanies";
 import { useInstitutions } from "../hooks/useInstitutions";
 

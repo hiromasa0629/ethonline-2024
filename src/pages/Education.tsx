@@ -4,7 +4,6 @@ import { useSignAttestation } from "../hooks/useSignAttestation";
 import { useWeb3Auth } from "../hooks/useWeb3Auth";
 
 import config from "../config.json";
-import { useLitProtocol } from "../hooks/useLitProtocol";
 import { useState } from "react";
 import PostAttestationMsg from "../components/PostAttestationMsg";
 
@@ -54,7 +53,6 @@ const formFields: FieldType[] = [
 const Education = () => {
   const { user } = useWeb3Auth();
   const { createCertificateAttestation } = useSignAttestation();
-  const { signEducation } = useLitProtocol();
   const [attested, setAttested] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
