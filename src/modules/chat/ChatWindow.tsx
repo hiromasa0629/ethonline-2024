@@ -2,10 +2,11 @@
 
 import { useEffect, useRef } from "react";
 import { useWeb3Auth } from "../../hooks/useWeb3Auth";
+import { useChat } from "./ChatContext";
 
 const ChatWindow = ({ streamedMessages }: { streamedMessages: any[] }) => {
   const { user } = useWeb3Auth();
-  console.log("streamedMessages", streamedMessages);
+  const { selectedChat } = useChat();
   // Create a ref for the chat container
   const chatRef = useRef<HTMLDivElement>(null);
 

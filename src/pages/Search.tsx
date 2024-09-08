@@ -4,19 +4,20 @@ import { useFirestore } from "../hooks/useFirestore";
 import { useChat } from "../modules/chat/ChatContext";
 import { useNavigate } from "react-router-dom";
 import { BROADCASTER } from "../modules/chat/utils";
+import { useWeb3Auth } from "../hooks/useWeb3Auth";
 
 const Search = () => {
   const { findTalents } = useFirestore();
   const [allTalents, setAllTalents] = useState<User[]>([]);
   const [viewType, setViewType] = useState<"talent" | "notTalent">("talent");
   const navigate = useNavigate();
+  const { user } = useWeb3Auth();
   const { setSelectedChat } = useChat();
 
   useEffect(() => {
     const getUsers = async () => {
       const talents = await findTalents();
-      // setAllTalents(talents.filter((v) => v.name !== user?.name));
-      setAllTalents(talents as any);
+      setAllTalents(talents.filter((v) => v.eoaAddress !== user?.eoaAddress) as any);
     };
     getUsers();
   }, []);
