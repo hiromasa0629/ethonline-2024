@@ -56,8 +56,6 @@ app.post("/api/subscribe-to-broadcast", async (req: Request<{}, {}, ReqUserBody>
   }
 
   console.log(req.body);
-  console.log("============");
-  console.log(senderAddress, receiverAddress);
   res.send("ok");
 });
 

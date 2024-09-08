@@ -68,7 +68,9 @@ const Search = () => {
                   <span className="font-semibold text-lg text-gray-800">{talent.name}</span>
 
                   {/* eoaAddress */}
-                  <span className="text-sm text-gray-500">{talent.eoaAddress}</span>
+                  <span className="text-sm text-gray-500">
+                    {talent.eoaAddress.slice(0, 7)}...{talent.eoaAddress.slice(-5) || ""}
+                  </span>
                 </div>
                 <button className="bg-blue-500 text-white px-4 py-1 rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition">
                   Chat
@@ -97,7 +99,9 @@ const Search = () => {
                   <span className="font-semibold text-lg text-gray-800">{key}</span>
 
                   {/* eoaAddress */}
-                  <span className="text-sm text-gray-500">{BROADCASTER[key]}</span>
+                  <span className="text-sm text-gray-500">
+                    {BROADCASTER[key].slice(0, 7)}...{BROADCASTER[key].slice(-5) || ""}
+                  </span>
                 </div>
                 <button className="bg-blue-500 text-white px-4 py-1 rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition">
                   Chat
