@@ -31,7 +31,7 @@
 			},
 			{
 				"internalType": "uint64",
-				"name": "",
+				"name": "attestationId",
 				"type": "uint64"
 			},
 			{
@@ -251,6 +251,38 @@
 			}
 		],
 		"name": "ApprovalForAll",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint64",
+				"name": "attestationId",
+				"type": "uint64"
+			}
+		],
+		"name": "AttestationId",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "recipient",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "uri",
+				"type": "string"
+			}
+		],
+		"name": "AttestationNFTGiven",
 		"type": "event"
 	},
 	{

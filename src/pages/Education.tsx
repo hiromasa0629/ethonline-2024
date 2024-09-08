@@ -59,7 +59,16 @@ const Education = () => {
     console.log("lol");
     await createCertificateAttestation({
       schemaId: config.schemaId.education,
-      data: await signEducation({
+      // data: await signEducation({
+      //   university_name: formDataType["university_name"] as string,
+      //   degree_title: formDataType["degree_title"] as string,
+      //   student_name: formDataType["student_name"] as string,
+      //   student_id: formDataType["student_id"] as string,
+      //   grade: formDataType["grade"] as string,
+      //   start_date: formDataType["start_date"] as string,
+      //   end_date: formDataType["end_date"] as string,
+      // }),
+      data: {
         university_name: formDataType["university_name"] as string,
         degree_title: formDataType["degree_title"] as string,
         student_name: formDataType["student_name"] as string,
@@ -67,7 +76,8 @@ const Education = () => {
         grade: formDataType["grade"] as string,
         start_date: formDataType["start_date"] as string,
         end_date: formDataType["end_date"] as string,
-      }),
+        signature: "0x1234",
+      },
       attester: user?.swAddress as `0x${string}`,
       indexingValue: String(formDataType["student_address"]),
       recipients: [String(formDataType["student_address"])],

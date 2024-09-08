@@ -6,11 +6,13 @@ networks:
   contracts:
   - name: ProofSchemaHook
     address:
-    - 0x5995d4336B086b275B4156e2C276585198f7fEd3
+    - 0xBF8a9A7769018B47E5C7b4df440917f930b32Eee
     handler: src/EventHandlers.ts
     events:
     - event: Approval(address indexed owner, address indexed approved, uint256 indexed tokenId)
     - event: ApprovalForAll(address indexed owner, address indexed operator, bool approved)
+    - event: AttestationId(uint64 indexed attestationId)
+    - event: AttestationNFTGiven(address indexed recipient, string uri)
     - event: BatchMetadataUpdate(uint256 _fromTokenId, uint256 _toTokenId)
     - event: MetadataUpdate(uint256 _tokenId)
     - event: OwnershipTransferred(address indexed previousOwner, address indexed newOwner)
@@ -18,3 +20,7 @@ networks:
     - event: SetInstitution(address indexed attester, string name)
     - event: Transfer(address indexed from, address indexed to, uint256 indexed tokenId)
 rollback_on_reorg: false
+field_selection:
+  transaction_fields:
+    - "hash"
+    - "transactionIndex"

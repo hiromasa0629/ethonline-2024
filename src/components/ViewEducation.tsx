@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
+import { useAttestationIds } from "../hooks/useAttestationIds";
 
 const ViewEducation = ({ attestations }: { attestations: any[] }) => {
   const [educationAtt, setEducationAtt] = useState<any[]>([]);
+  const { attestationIds } = useAttestationIds();
 
   useEffect(() => {
     const filtered = attestations.filter((item) => item.attestationType === "CERTIFICATE");
     setEducationAtt(filtered);
   }, [attestations]);
+
+  const handleClickButton = (txHash: string) => {
+    const found = attestationIds.find((v) => v.txHash === txHash);
+    if (!found) return;
+    window.location.href = `https://testnet-scan.sign.global/attestation/onchain_evm_84532_${found.attestationId}`;
+  };
 
   return (
     <div className="w-full flex flex-col space-y-2">
@@ -37,7 +45,10 @@ const ViewEducation = ({ attestations }: { attestations: any[] }) => {
                     {att.certificate_grade}
                   </p>
                 </div>
-                <button className="w-full rounded-full bg-yellow py-2">
+                <button
+                  className="w-full rounded-full bg-yellow py-2"
+                  onClick={() => handleClickButton(att.txHash)}
+                >
                   <p>View transaction</p>
                 </button>
               </div>

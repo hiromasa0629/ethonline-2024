@@ -12,6 +12,18 @@ type ProofSchemaHook_ApprovalForAll {
   approved: Boolean!
 }
 
+type ProofSchemaHook_AttestationId {
+  id: ID!
+  attestationId: BigInt!
+  txHash: String!
+}
+
+type ProofSchemaHook_AttestationNFTGiven {
+  id: ID!
+  recipient: String!
+  uri: String!
+}
+
 type ProofSchemaHook_BatchMetadataUpdate {
   id: ID!
   _fromTokenId: BigInt!

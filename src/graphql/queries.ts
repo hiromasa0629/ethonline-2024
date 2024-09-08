@@ -18,3 +18,12 @@ export const GET_INSTITUTIONS = gql`
     }
   }
 `;
+
+export const GET_ATTESTATION_ID = gql`
+  query GetAttestationIds {
+    ProofSchemaHook_AttestationIds {
+      txHash
+      attestationId
+    }
+  }
+`;

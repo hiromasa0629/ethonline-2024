@@ -5,6 +5,8 @@ import {
   ProofSchemaHook,
   ProofSchemaHook_Approval,
   ProofSchemaHook_ApprovalForAll,
+  ProofSchemaHook_AttestationId,
+  ProofSchemaHook_AttestationNFTGiven,
   ProofSchemaHook_BatchMetadataUpdate,
   ProofSchemaHook_MetadataUpdate,
   ProofSchemaHook_OwnershipTransferred,
@@ -33,6 +35,29 @@ ProofSchemaHook.ApprovalForAll.handler(async ({ event, context }) => {
   };
 
   context.ProofSchemaHook_ApprovalForAll.set(entity);
+});
+
+ProofSchemaHook.AttestationId.handler(async ({ event, context }) => {
+  context.log.info("MONEYYYYYYYYYYYYYY");
+  context.log.info(JSON.stringify(event.transaction));
+
+  const entity: ProofSchemaHook_AttestationId = {
+    id: `${event.chainId}_${event.block.number}_${event.logIndex}`,
+    attestationId: event.params.attestationId,
+    txHash: event.transaction.hash,
+  };
+
+  context.ProofSchemaHook_AttestationId.set(entity);
+});
+
+ProofSchemaHook.AttestationNFTGiven.handler(async ({ event, context }) => {
+  const entity: ProofSchemaHook_AttestationNFTGiven = {
+    id: `${event.chainId}_${event.block.number}_${event.logIndex}`,
+    recipient: event.params.recipient,
+    uri: event.params.uri,
+  };
+
+  context.ProofSchemaHook_AttestationNFTGiven.set(entity);
 });
 
 ProofSchemaHook.BatchMetadataUpdate.handler(async ({ event, context }) => {
