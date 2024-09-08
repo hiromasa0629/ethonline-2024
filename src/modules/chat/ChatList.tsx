@@ -63,7 +63,7 @@ const ChatList = () => {
                   {convo.peerAddress.slice(0, 7)}...{convo.peerAddress.slice(-5) || ""}
                 </span>
               </div>
-              <button className="bg-purple text-white px-4 py-1 rounded-lg shadow hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition">
+              <button className="bg-blue-500 text-white px-4 py-1 rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition">
                 Chat
               </button>
             </li>

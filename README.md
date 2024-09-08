@@ -62,3 +62,21 @@ type ProofSchemaHook_AttestationId {
   txHash: String!
 }
 ```
+
+## XMTP Integration for Communication
+
+### Overview
+
+This project leverages the XMTP to facilitate decentralized communication between talents and companies/institutions. With XMTP, talents can directly chat with companies/institutions or subscribe to their newsletter, while companies/institutions can broadcast messages to subscribed talents. The goal is to create a seamless, privacy-first communication experience for both parties within the decentralized web3 ecosystem.
+
+### Features
+- **Private Messaging**: Talents and companies can engage in secure, end-to-end encrypted conversations.
+- **Broadcasting**: Companies and institutions can send announcements or broadcast updates to all talents who have subscribed to their channels.
+- **Decentralized Protocol**: All messages are decentralized, ensuring privacy and ownership of data.
+- **Automated Response**: Subscription channel for companies and institution will also have the ability to customized response messages to Talents enquiry.
+
+### Use Cases
+
+1. **Talent Engagement**: Talents can chat with potential employers directly, ask questions, and discuss opportunities.
+2. **Company Announcements**: Companies and Institutions can broadcast important updates or job postings to all subscribed talents in one go.
+3. **Subscription-Based Messaging**: Talents can choose which companies or institutions they wish to subscribe to, receiving messages only from those they are interested in.

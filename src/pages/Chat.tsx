@@ -109,7 +109,7 @@ const Chat = () => {
       <div className="flex items-center p-4 bg-white shadow-md">
         <button
           onClick={() => setSelectedChat({ name: "", eoaAddress: "" })} // Set to go back to ChatList
-          className="mr-4 bg-purple text-white px-3 py-1 rounded-lg shadow-md hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition"
+          className="mr-4 bg-blue-500 text-white px-3 py-1 rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition"
         >
           Back
         </button>
