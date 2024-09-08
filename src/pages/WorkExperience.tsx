@@ -5,6 +5,8 @@ import { useWeb3Auth } from "../hooks/useWeb3Auth";
 
 import config from "../config.json";
 import { useLitProtocol } from "../hooks/useLitProtocol";
+import { useState } from "react";
+import PostAttestationMsg from "../components/PostAttestationMsg";
 
 const formFields: FieldType[] = [
   {
@@ -59,6 +61,7 @@ const WorkExperience = () => {
   const { user } = useWeb3Auth();
   const { createExperienceAttestation } = useSignAttestation();
   const { signWorkExperience } = useLitProtocol();
+  const [attested, setAttested] = useState(false);
 
   const handleFormSubmit = async (formDataType: FormDataType) => {
     console.log(formDataType);
@@ -77,6 +80,8 @@ const WorkExperience = () => {
       attester: user?.swAddress as `0x${string}`,
       indexingValue: String(formDataType["employee_address"]),
       recipients: [String(formDataType["employee_address"])],
+    }).then(() => {
+      setAttested(true);
     });
   };
 
@@ -87,6 +92,7 @@ const WorkExperience = () => {
         <p>Work Experience</p>
       </div>
       <DynamicForm fields={formFields} type="work" onSubmit={handleFormSubmit} />
+      {attested && <PostAttestationMsg />}
     </div>
   );
 };

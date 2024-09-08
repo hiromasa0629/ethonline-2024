@@ -3,8 +3,8 @@ import { useSignSchema } from "../hooks/useSignSchema";
 import { useWeb3Auth } from "../hooks/useWeb3Auth";
 import {
   LuHome,
-  LuUser,
-  LuSettings,
+  LuSearch,
+  LuMessagesSquare,
   LuLogOut,
   LuCheckCircle2,
   LuFileBadge,
@@ -36,22 +36,22 @@ function Layout() {
     TALENT: [
       { element: "home", icon: LuHome, action: () => navigate("/") },
       { element: "endorse", icon: LuCheckCircle2, action: () => navigate("/endorse") },
-      { element: "chat", icon: LuSettings, action: () => navigate("/chat") },
-      { element: "search", icon: LuSettings, action: () => navigate("/search") },
+      { element: "chat", icon: LuMessagesSquare, action: () => navigate("/chat") },
+      { element: "search", icon: LuSearch, action: () => navigate("/search") },
       { element: "logout", icon: LuLogOut, action: handleLogOut },
     ],
     INSTITUTION: [
       { element: "home", icon: LuHome, action: () => navigate("/") },
       { element: "certify", icon: LuFileBadge, action: () => navigate("/education") },
-      { element: "chat", icon: LuSettings, action: () => navigate("/chat") },
-      { element: "search", icon: LuSettings, action: () => navigate("/search") },
+      { element: "chat", icon: LuMessagesSquare, action: () => navigate("/chat") },
+      { element: "search", icon: LuSearch, action: () => navigate("/search") },
       { element: "logout", icon: LuLogOut, action: handleLogOut },
     ],
     COMPANY: [
       { element: "home", icon: LuHome, action: () => navigate("/") },
       { element: "work", icon: LuHardHat, action: () => navigate("/work-exp") },
-      { element: "chat", icon: LuSettings, action: () => navigate("/chat") },
-      { element: "search", icon: LuSettings, action: () => navigate("/search") },
+      { element: "chat", icon: LuMessagesSquare, action: () => navigate("/chat") },
+      { element: "search", icon: LuSearch, action: () => navigate("/search") },
       { element: "logout", icon: LuLogOut, action: handleLogOut },
     ],
   };
