@@ -130,7 +130,7 @@ const DynamicForm = ({ fields, type, isLoading, onSubmit }: DynamicFormProps) =>
                       filteredSuggestions.map((suggestion, index) => (
                         <li
                           key={index}
-                          className="p-2 hover:bg-blue-100 cursor-pointer"
+                          className="p-2 hover:bg-purple-100 cursor-pointer"
                           onClick={() =>
                             handleSuggestionClick(suggestion.name, suggestion.swAddress)
                           }

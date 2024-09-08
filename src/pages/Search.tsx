@@ -40,8 +40,8 @@ const Search = () => {
         <button
           onClick={() => setViewType("talent")}
           className={`px-6 py-2 ${
-            viewType === "talent" ? "bg-blue-600" : "bg-blue-500"
-          } text-white rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition`}
+            viewType === "talent" ? "bg-blue-600" : "bg-purple"
+          } text-white rounded-lg shadow-md hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition`}
         >
           Talents
         </button>
@@ -78,7 +78,7 @@ const Search = () => {
                     {talent.eoaAddress.slice(0, 7)}...{talent.eoaAddress.slice(-5) || ""}
                   </span>
                 </div>
-                <button className="bg-blue-500 text-white px-4 py-1 rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition">
+                <button className="bg-purple text-white px-4 py-1 rounded-lg shadow hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition">
                   Chat
                 </button>
               </li>
@@ -108,7 +108,7 @@ const Search = () => {
                     {BROADCASTER[key].slice(0, 7)}...{BROADCASTER[key].slice(-5) || ""}
                   </span>
                 </div>
-                <button className="bg-blue-500 text-white px-4 py-1 rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition">
+                <button className="bg-purple text-white px-4 py-1 rounded-lg shadow hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition">
                   Chat
                 </button>
               </li>
@@ -130,7 +130,7 @@ const Search = () => {
                     {talent.eoaAddress.slice(0, 7)}...{talent.eoaAddress.slice(-5) || ""}
                   </span>
                 </div>
-                <button className="bg-blue-500 text-white px-4 py-1 rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition">
+                <button className="bg-purple text-white px-4 py-1 rounded-lg shadow hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition">
                   Chat
                 </button>
               </li>

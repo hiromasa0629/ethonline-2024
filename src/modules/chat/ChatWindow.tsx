@@ -26,7 +26,7 @@ const ChatWindow = ({ streamedMessages }: { streamedMessages: any[] }) => {
           return (
             <div
               key={index}
-              className={`max-w-xs break-words p-3 rounded-lg shadow bg-blue-500 text-white self-start`}
+              className={`max-w-xs break-words p-3 rounded-lg shadow bg-purple text-white self-start`}
             >
               <p className="text-xs text-left">You</p>
               <p>{message.content}</p>

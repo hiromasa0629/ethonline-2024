@@ -42,7 +42,7 @@ const ChatInput = ({
           disabled={!disabled}
         />
         <button
-          className="ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600"
+          className="ml-4 px-4 py-2 bg-purple text-white rounded-lg shadow hover:bg-purple-600"
           onClick={handleSend}
           disabled={disabled}
         >
