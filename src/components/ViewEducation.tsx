@@ -13,7 +13,7 @@ const ViewEducation = ({ attestations }: { attestations: any[] }) => {
   const handleClickButton = (txHash: string) => {
     const found = attestationIds.find((v) => v.txHash === txHash);
     if (!found) return;
-    window.location.href = `https://testnet-scan.sign.global/attestation/onchain_evm_84532_${found.attestationId}`;
+    window.location.href = `https://testnet-scan.sign.global/attestation/onchain_evm_84532_0x${found.attestationId}`;
   };
 
   return (
