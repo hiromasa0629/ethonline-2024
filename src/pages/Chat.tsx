@@ -5,7 +5,6 @@ import {
   useStartConversation,
   useStreamMessages,
   DecodedMessage,
-  useDb,
 } from "@xmtp/react-sdk";
 import { useWeb3Auth } from "../hooks/useWeb3Auth";
 import { useCallback, useEffect, useState } from "react";
@@ -59,6 +58,7 @@ const Chat = () => {
       const convo = await startConversation(selectedChat.eoaAddress as string, "Helloo.");
       setConversation(convo.conversation);
     }
+    console.log(`${selectedChat.name} on network: ${canMsg}`);
   };
 
   useEffect(() => {
@@ -104,7 +104,6 @@ const Chat = () => {
 
   return (
     <div className="flex flex-col h-[100%] max-h-screen bg-gray-100">
-      {/* Header with Back Button and Title */}
       <div className="flex items-center p-4 bg-white shadow-md">
         <button
           onClick={() => setSelectedChat({ name: "", eoaAddress: "" })} // Set to go back to ChatList
@@ -112,7 +111,12 @@ const Chat = () => {
         >
           Back
         </button>
-        <p className="font-semibold text-lg text-gray-800">Chatting with: {selectedChat.name}</p>
+        <div className="flex items-center space-x-2">
+          <p className="font-semibold text-lg text-gray-800">Chatting with: {selectedChat.name}</p>
+          <span
+            className={`w-3 h-3 rounded-full ${isOnNetwork ? "bg-green-500" : "bg-red-500"}`}
+          ></span>
+        </div>
       </div>
 
       {/* Chat window */}

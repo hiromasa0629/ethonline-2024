@@ -20,8 +20,6 @@ const ChatList = () => {
     };
     getUsers();
   }, []);
-
-  console.log("conversations", conversations);
   return (
     <ul className="p-4 bg-gray-50 rounded-lg shadow-inner">
       {conversations.map((convo: any, index: any) => {
@@ -36,7 +34,7 @@ const ChatList = () => {
             }
           });
         }
-        name = name.length > 0 ? name[0].name : undefined;
+        name = name.length > 0 ? name[0].name : "Elon Musk";
         return (
           <li
             key={index}
@@ -47,17 +45,16 @@ const ChatList = () => {
           >
             <div className="flex flex-col">
               {/* Name */}
-              <span className="font-semibold text-lg text-gray-800">
-                {name ? `${name} | ` : "Elon Musk | "}
-              </span>
+              <span className="font-semibold text-lg text-gray-800">{name}</span>
 
               {/* eoaAddress */}
-              <span className="text-sm text-gray-500">{convo.peerAddress}</span>
+              <span className="text-sm text-gray-500">
+                {convo.peerAddress.slice(0, 7)}...{convo.peerAddress.slice(-5) || ""}
+              </span>
             </div>
             <button className="bg-blue-500 text-white px-4 py-1 rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition">
               Chat
             </button>
-            <p></p>
           </li>
         );
       })}
