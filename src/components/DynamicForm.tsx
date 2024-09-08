@@ -9,10 +9,11 @@ import { useFirestore } from "../hooks/useFirestore";
 interface DynamicFormProps {
   fields: FieldType[];
   type: "endorse" | "education" | "work";
+  isLoading: boolean;
   onSubmit: (FormDataType: FormDataType) => void;
 }
 
-const DynamicForm = ({ fields, type, onSubmit }: DynamicFormProps) => {
+const DynamicForm = ({ fields, type, isLoading, onSubmit }: DynamicFormProps) => {
   const [formDataType, setFormData] = useState<FormDataType>(
     fields.reduce((acc: FormDataType, field: FieldType) => {
       acc[field.name] = field.type === "date" ? new Date().toISOString().split("T")[0] : "";
@@ -37,7 +38,6 @@ const DynamicForm = ({ fields, type, onSubmit }: DynamicFormProps) => {
   }, []);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    console.log("Submitting...");
     event.preventDefault();
     if (type === "endorse") {
       formDataType["date_of_endorsement"] = new Date().toISOString().split("T")[0];
@@ -50,12 +50,10 @@ const DynamicForm = ({ fields, type, onSubmit }: DynamicFormProps) => {
     const stringValue = value instanceof Date ? value.toISOString().split("T")[0] : value; // Converts Date to 'YYYY-MM-DD' format
     if (name === "endorsee_name" || name === "employee_name" || name === "student_name") {
       setAutocompleteInput(stringValue);
-      console.log(stringValue);
       if (stringValue) {
         const filtered = allTalents.filter((v) =>
           v.name.toLowerCase().includes(stringValue.toLowerCase())
         );
-        console.log(filtered);
         setFilteredSuggestions(filtered);
         setShowSuggestions(true);
       } else {
@@ -155,8 +153,9 @@ const DynamicForm = ({ fields, type, onSubmit }: DynamicFormProps) => {
         <button
           type="submit"
           className="w-full bg-purple rounded-xl text-center text-white py-2 mb-4"
+          disabled={isLoading}
         >
-          Submit
+          {isLoading ? "loading..." : "Submit"}
         </button>
       </form>
     </div>

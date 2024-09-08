@@ -52,7 +52,7 @@ const Home = () => {
           </>
         )}
       </div>
-      <div className="flex flex-col px-2 pt-2 pb-4 h-full space-y-4">
+      <div className="flex flex-col h-fit px-2 pt-2 pb-4 mb-24 space-y-4">
         <ViewEducation attestations={attestations} />
         <ViewExperience attestations={attestations} />
         <ViewEndorsement attestations={attestations} />

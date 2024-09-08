@@ -57,9 +57,10 @@ const Education = () => {
   const { signEducation } = useLitProtocol();
   const [attested, setAttested] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleFormSubmit = async (formDataType: FormDataType) => {
-    console.log(formDataType);
-    console.log("lol");
+    setIsLoading(true);
     await createCertificateAttestation({
       schemaId: config.schemaId.education,
       // data: await signEducation({
@@ -84,18 +85,27 @@ const Education = () => {
       attester: user?.swAddress as `0x${string}`,
       indexingValue: String(formDataType["student_address"]),
       recipients: [String(formDataType["student_address"])],
-    }).then(() => {
-      setAttested(true);
-    });
+    })
+      .then(() => {
+        setAttested(true);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
-    <div className="w-full h-fit flex flex-col space-y-5">
+    <div className="relative w-full h-fit flex flex-col space-y-5">
       <div className="w-full bg-purple flex flex-col items-center justify-center py-5 rounded-b-2xl text-white">
         <p className="text-4xl">ATTEST</p>
         <p>EDUCATION</p>
       </div>
-      <DynamicForm fields={formFields} type="education" onSubmit={handleFormSubmit} />
+      <DynamicForm
+        fields={formFields}
+        type="education"
+        isLoading={isLoading}
+        onSubmit={handleFormSubmit}
+      />
       {attested && <PostAttestationMsg />}
     </div>
   );

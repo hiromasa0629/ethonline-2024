@@ -34,9 +34,10 @@ const Endorsement = () => {
   const { createEndorsementAttestation } = useSignAttestation();
   const { signEndorsement } = useLitProtocol();
   const [attested, setAttested] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleFormSubmit = async (formDataType: FormDataType) => {
-    console.log(formDataType);
+    setIsLoading(true);
     await createEndorsementAttestation({
       schemaId: config.schemaId.endorsement,
       data: await signEndorsement({
@@ -49,17 +50,26 @@ const Endorsement = () => {
       attester: user?.swAddress as `0x${string}`,
       indexingValue: String(formDataType["endorsee_address"]),
       recipients: [String(formDataType["endorsee_address"])],
-    }).then(() => {
-      setAttested(true);
-    });
+    })
+      .then(() => {
+        setAttested(true);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
-    <div className="w-full h-fit flex flex-col space-y-5">
+    <div className="relative w-full h-fit flex flex-col space-y-5">
       <div className="w-full bg-purple flex justify-center py-5 rounded-b-2xl">
         <p className="text-4xl text-white">ENDORSEMENT</p>
       </div>
-      <DynamicForm fields={formFields} type="endorse" onSubmit={handleFormSubmit} />
+      <DynamicForm
+        fields={formFields}
+        type="endorse"
+        isLoading={isLoading}
+        onSubmit={handleFormSubmit}
+      />
       {attested && <PostAttestationMsg />}
     </div>
   );

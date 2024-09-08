@@ -17,8 +17,6 @@ export const useWeb3Auth = () => {
     smartWallet,
   } = useContext(Web3AuthContext) as Web3AuthContextType;
 
-  console.log(user?.eoaAddress);
-
   const handleLogIn = async () => {
     const provider = await web3Auth.connect();
     saveWeb3AuthProvider(provider);

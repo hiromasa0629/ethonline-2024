@@ -20,7 +20,6 @@ const ViewEndorsement = ({ attestations }: { attestations: any[] }) => {
       <div className="flex space-x-4 overflow-x-auto">
         {endorsementAtt.length > 0 ? (
           endorsementAtt.map((att: any, index: number) => {
-            console.log("att", att);
             return (
               <div
                 key={index}

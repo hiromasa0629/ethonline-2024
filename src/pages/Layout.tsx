@@ -60,23 +60,19 @@ function Layout() {
   return (
     <>
       <div className="flex flex-col overflow-y-scroll h-screen">
-        <div className="h-full overflow-y-auto">
-          <Outlet />
-        </div>
-        <div>
-          <footer className="w-full bottom-0 left-0 right-0 bg-purple text-white py-4 rounded-t-lg">
-            <div className="container mx-auto flex w-full justify-around items-center">
-              {buttons.map((button, index) => (
-                <ButtonComponent
-                  key={index}
-                  element={button.element}
-                  icon={button.icon}
-                  onClickAction={button.action}
-                />
-              ))}
-            </div>
-          </footer>
-        </div>
+        <Outlet />
+        <footer className="fixed w-full bottom-0 left-0 bg-purple text-white py-4 rounded-t-lg">
+          <div className="container mx-auto flex w-full justify-around items-center">
+            {buttons.map((button, index) => (
+              <ButtonComponent
+                key={index}
+                element={button.element}
+                icon={button.icon}
+                onClickAction={button.action}
+              />
+            ))}
+          </div>
+        </footer>
       </div>
     </>
   );

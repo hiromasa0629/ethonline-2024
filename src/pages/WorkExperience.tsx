@@ -62,9 +62,10 @@ const WorkExperience = () => {
   const { createExperienceAttestation } = useSignAttestation();
   const { signWorkExperience } = useLitProtocol();
   const [attested, setAttested] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleFormSubmit = async (formDataType: FormDataType) => {
-    console.log(formDataType);
+    setIsLoading(true);
     await createExperienceAttestation({
       schemaId: config.schemaId.work,
       data: await signWorkExperience({
@@ -80,18 +81,27 @@ const WorkExperience = () => {
       attester: user?.swAddress as `0x${string}`,
       indexingValue: String(formDataType["employee_address"]),
       recipients: [String(formDataType["employee_address"])],
-    }).then(() => {
-      setAttested(true);
-    });
+    })
+      .then(() => {
+        setAttested(true);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
-    <div className="w-full h-fit flex flex-col space-y-5">
+    <div className="relative w-full h-fit flex flex-col space-y-5">
       <div className="w-full bg-purple flex flex-col items-center justify-center py-5 rounded-b-2xl text-white">
         <p className="text-4xl">ATTEST</p>
         <p>Work Experience</p>
       </div>
-      <DynamicForm fields={formFields} type="work" onSubmit={handleFormSubmit} />
+      <DynamicForm
+        fields={formFields}
+        type="work"
+        isLoading={isLoading}
+        onSubmit={handleFormSubmit}
+      />
       {attested && <PostAttestationMsg />}
     </div>
   );

@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
+import { useAttestationIds } from "../hooks/useAttestationIds";
 
 const ViewExperience = ({ attestations }: { attestations: any[] }) => {
   const [experienceAtt, setExperienceAtt] = useState<any[]>([]);
+  const { attestationIds } = useAttestationIds();
 
   useEffect(() => {
     const filtered = attestations.filter((item) => item.attestationType === "EXPERIENCE");
     setExperienceAtt(filtered);
   }, [attestations]);
+
+  const handleClickButton = (txHash: string) => {
+    const found = attestationIds.find((v) => v.txHash === txHash);
+    if (!found) return;
+    window.location.href = `https://testnet-scan.sign.global/attestation/onchain_evm_84532_0x${found.attestationId}`;
+  };
 
   return (
     <div className="w-full flex flex-col space-y-2">
@@ -34,7 +42,10 @@ const ViewExperience = ({ attestations }: { attestations: any[] }) => {
                     {att.experience_start_date} to {att.experience_end_date}
                   </p>
                 </div>
-                <button className="w-full rounded-full bg-purple py-2">
+                <button
+                  className="w-full rounded-full bg-purple py-2"
+                  onClick={() => handleClickButton(att.txHash)}
+                >
                   <p>View transaction</p>
                 </button>
               </div>
